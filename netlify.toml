@@ -4,7 +4,7 @@
 
 # Netlify function bundle'ına rules-context.json'u da dahil et (RAG için)
 [functions]
-  included_files = ["rules-context.json", "rules.json"]
+  included_files = ["rules-context.json", "rules.json", "data/projects.xlsx", "reports/latest.json"]
 
 # /api/chat çağrıları Netlify Function'a yönlendirilir (frontend kodu değişmiyor).
 [[redirects]]

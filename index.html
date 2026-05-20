@@ -248,6 +248,7 @@
       <button id="navActions" onclick="showPage('actions')">Aksiyonlar</button>
       <button id="navHistory" onclick="showPage('history')">Geçmiş</button>
       <button id="navAssistant" onclick="showPage('assistant')">Asistan</button>
+      <button id="navInspect" onclick="showPage('inspect')">Teftiş Ajanı</button>
       <button id="navReport" onclick="showPage('report')">Rapor</button>
     </div>
     <div class="userPanel"><span id="userBadge">Giriş yok</span><button class="secondary smallBtn" onclick="logoutUser()">Çıkış</button></div>
@@ -599,6 +600,37 @@
     </div>
   </section>
 
+  <!-- INSPECT (Teftiş Ajanı) -->
+  <section id="pageInspect" class="page">
+    <div class="panel card" style="margin-top:20px">
+      <div class="card-title">
+        <h3>Otomatik Teftiş Ajanı</h3>
+        <span class="small" id="inspectMeta">Hazır</span>
+      </div>
+      <p class="small" style="margin-top:4px">
+        <code>data/projects.xlsx</code> dosyasını okuyup BDDK / iç prosedür kontrollerine göre risk skoru üretir.
+        GitHub Actions tarafından <b>her saat başı</b> otomatik çalışır (<code>.github/workflows/inspect.yml</code>);
+        son rapor <code>reports/latest.json</code> dosyasına yazılır.
+      </p>
+      <div class="buttons" style="margin-top:10px">
+        <button class="primary" onclick="inspectRun()">Şimdi Çalıştır</button>
+        <button class="secondary" onclick="inspectLoadLatest()">Son Raporu Yükle</button>
+        <button class="gold" onclick="inspectExportExcel()">Excel'e Aktar</button>
+      </div>
+      <div id="inspectSummary" class="kpiRow" style="margin-top:14px"></div>
+    </div>
+
+    <div class="panel card" style="margin-top:16px">
+      <div class="card-title"><h3>Risk Listesi</h3><span class="small" id="inspectCount">—</span></div>
+      <div id="inspectTable" class="tableWrap"><div class="empty">Henüz veri yüklenmedi.</div></div>
+    </div>
+
+    <div class="panel card" style="margin-top:16px">
+      <div class="card-title"><h3>Proje Detayı</h3><span class="small">Satır seçince kontrol senaryoları burada</span></div>
+      <div id="inspectDetail" class="tableWrap"><div class="empty">Sol tablodan bir proje seçin.</div></div>
+    </div>
+  </section>
+
   <!-- REPORT -->
   <section id="pageReport" class="page">
     <div class="grid2">
@@ -864,11 +896,12 @@ function renderComparison(){
 
 function showPage(page){
   if(!requireLogin()) return;
-  ["dashboard","control","rules","sources","actions","history","assistant","report"].forEach(p=>{
+  ["dashboard","control","rules","sources","actions","history","assistant","inspect","report"].forEach(p=>{
     document.getElementById("page"+capitalize(p)).classList.toggle("active", p===page);
     document.getElementById("nav"+capitalize(p)).classList.toggle("active", p===page);
   });
   if(page === "assistant") renderAssistantSelect();
+  if(page === "inspect") inspectInit();
   renderHistory();
 }
 function capitalize(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
@@ -1786,6 +1819,97 @@ function _showTyping(id) {
 }
 function _removeTyping(id) {
   document.getElementById(id)?.remove();
+}
+
+// ===== Inspect (Teftiş Ajanı) =====
+let INSPECT_LAST = null;
+async function inspectInit(){ if(!INSPECT_LAST) inspectLoadLatest(); }
+function inspectFmtDate(d){ if(!d) return "—"; try { return new Date(d).toLocaleString("tr-TR"); } catch(_){ return d; } }
+function inspectSeverityColor(sev){ return ({kritik:"#c0392b",yuksek:"#e67e22",orta:"#f1c40f",dusuk:"#27ae60"})[(sev||"").toLowerCase()] || "#7f8c8d"; }
+async function inspectLoadLatest(){
+  const meta = document.getElementById("inspectMeta");
+  if(meta) meta.textContent = "Yükleniyor...";
+  try {
+    const res = await fetch("/reports/latest.json", {cache:"no-store"});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    const data = await res.json();
+    inspectRender(data);
+  } catch(e) {
+    if(meta) meta.textContent = "Rapor bulunamadı. 'Şimdi Çalıştır' deneyin.";
+  }
+}
+async function inspectRun(){
+  const meta = document.getElementById("inspectMeta");
+  if(meta) meta.textContent = "Teftiş çalışıyor...";
+  try {
+    const res = await fetch("/api/inspect-now?force=1", {cache:"no-store"});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    const data = await res.json();
+    inspectRender(data);
+  } catch(e) {
+    if(meta) meta.textContent = "Hata: " + e.message;
+  }
+}
+const CTRL_LABEL = { advance:"Avans Kapama", penalty:"Ceza Havuzu", seller:"Çoklu Satıcı", limit:"Proje Limit" };
+function inspectRender(data){
+  INSPECT_LAST = data;
+  const meta = document.getElementById("inspectMeta");
+  if(meta) meta.textContent = "Son rapor: " + inspectFmtDate(data.generatedAt) + (data.cached ? " (önbellek)" : "") + (data.source ? " — " + data.source : "");
+  const s = data.summary || {};
+  const sum = document.getElementById("inspectSummary");
+  if(sum) sum.innerHTML = `
+    <div class="kpi" style="border-left:6px solid ${inspectSeverityColor("kritik")}"><div class="kpiLabel">Kritik</div><div class="kpiValue">${s.kritik||0}</div></div>
+    <div class="kpi" style="border-left:6px solid ${inspectSeverityColor("yuksek")}"><div class="kpiLabel">Yüksek</div><div class="kpiValue">${s.yuksek||0}</div></div>
+    <div class="kpi" style="border-left:6px solid ${inspectSeverityColor("orta")}"><div class="kpiLabel">Orta</div><div class="kpiValue">${s.orta||0}</div></div>
+    <div class="kpi" style="border-left:6px solid ${inspectSeverityColor("dusuk")}"><div class="kpiLabel">Düşük</div><div class="kpiValue">${s.dusuk||0}</div></div>
+    <div class="kpi"><div class="kpiLabel">Toplam Proje</div><div class="kpiValue">${s.toplam||(data.items||[]).length}</div></div>`;
+  const items = data.items || [];
+  const cnt = document.getElementById("inspectCount");
+  if(cnt) cnt.textContent = items.length + " proje";
+  const tbody = items.map((it,i)=>{
+    const sev = (it.level||"dusuk").toLowerCase();
+    const tutar = Number(it.raw?.proje_tutari || 0);
+    return `<tr onclick="inspectShowDetail(${i})" style="cursor:pointer">
+      <td>${it.projeNo||"-"}</td><td>${it.musteri||"-"}</td>
+      <td style="text-align:right">${tutar ? tutar.toLocaleString("tr-TR") : "-"}</td>
+      <td><span class="badge" style="background:${inspectSeverityColor(sev)};color:#fff;padding:2px 8px;border-radius:4px">${sev.toUpperCase()}</span></td>
+      <td>${it.totalScore||0}</td>
+    </tr>`;
+  }).join("");
+  const tbl = document.getElementById("inspectTable");
+  if(tbl) tbl.innerHTML = items.length
+    ? `<table class="tbl"><thead><tr><th>Proje No</th><th>Müşteri</th><th>Tutar (TL)</th><th>Risk</th><th>Skor</th></tr></thead><tbody>${tbody}</tbody></table>`
+    : `<div class="empty">Proje bulunamadı.</div>`;
+}
+function inspectShowDetail(idx){
+  if(!INSPECT_LAST || !INSPECT_LAST.items) return;
+  const it = INSPECT_LAST.items[idx]; if(!it) return;
+  const findings = Object.entries(it.controls||{}).map(([k,c])=>`
+    <div class="finding" style="border-left:4px solid ${inspectSeverityColor(c.level||it.level)};padding:8px;margin:6px 0;background:#fafafa">
+      <h4>${CTRL_LABEL[k]||k} — Skor: ${c.score||0}</h4>
+      <p><b>Senaryo:</b> ${c.scenario||"-"}</p>
+      <p><b>Bulgu:</b> ${c.finding||"-"}</p>
+      <p><b>Aksiyon:</b> ${c.action||"-"}</p>
+      <p><b>Etki:</b> ${c.impact||"-"}</p>
+    </div>`).join("");
+  const aiBlock = it.ai ? `<div class="finding" style="border-left:4px solid #2980b9;padding:8px;margin:6px 0;background:#eef6fb"><h4>🤖 AI Yönetici Özeti</h4><p>${it.ai.summary || it.ai}</p></div>` : "";
+  document.getElementById("inspectDetail").innerHTML =
+    `<h4>Proje ${it.projeNo} — ${it.musteri||""} <span class="badge" style="background:${inspectSeverityColor(it.level)};color:#fff;padding:2px 8px;border-radius:4px">${(it.level||"").toUpperCase()}</span></h4>${aiBlock}${findings}`;
+}
+function inspectExportExcel(){
+  if(!INSPECT_LAST || !INSPECT_LAST.items){ alert("Önce rapor yükleyin"); return; }
+  const rows = INSPECT_LAST.items.map(it=>({
+    "Proje No": it.projeNo, "Müşteri": it.musteri,
+    "Tutar": Number(it.raw?.proje_tutari||0),
+    "Risk": it.level, "Toplam Skor": it.totalScore,
+    "Avans": it.controls?.advance?.score, "Ceza": it.controls?.penalty?.score,
+    "Satıcı": it.controls?.seller?.score, "Limit": it.controls?.limit?.score,
+    "AI Özet": it.ai?.summary || ""
+  }));
+  const ws = XLSX.utils.json_to_sheet(rows);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Teftis");
+  XLSX.writeFile(wb, "denetrai-teftis-"+Date.now()+".xlsx");
 }
 
 renderManualFields();

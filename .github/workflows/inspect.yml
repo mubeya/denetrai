@@ -1,0 +1,55 @@
+name: Inspect
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/projects.xlsx"
+      - "rules.json"
+      - "inspect-agent.mjs"
+  schedule:
+    - cron: "0 * * * *"        # her saat başı
+  workflow_dispatch: {}
+
+concurrency:
+  group: inspect
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - run: npm ci
+
+      - name: Run inspection
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CI: "true"
+        run: node inspect-agent.mjs --ci
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "denetrai-inspect-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if git diff --quiet -- reports/latest.json; then
+            echo "Değişiklik yok"
+            exit 0
+          fi
+          git add reports/latest.json
+          git commit -m "chore(inspect): otomatik teftiş raporu güncellendi"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push origin main && exit 0
+            echo "push denemesi $i başarısız, tekrar..." && sleep 2
+          done
+          exit 1

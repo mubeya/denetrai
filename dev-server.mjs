@@ -31,6 +31,7 @@ if (fs.existsSync(envPath)) {
 }
 
 const { handler } = await import("./netlify/functions/chat.mjs");
+const inspectNow = (await import("./netlify/functions/inspect-now.mjs")).default;
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -55,6 +56,25 @@ function readBody(req) {
 }
 
 http.createServer(async (req, res) => {
+  // API: /api/inspect-now -> netlify function (Web Fetch API style)
+  if (req.url.startsWith("/api/inspect-now") || req.url.startsWith("/.netlify/functions/inspect-now")) {
+    try {
+      const fullUrl = `http://127.0.0.1:${PORT}${req.url}`;
+      const webReq = new Request(fullUrl, { method: req.method, headers: req.headers });
+      const response = await inspectNow(webReq);
+      const text = await response.text();
+      const headers = {};
+      response.headers.forEach((v, k) => { headers[k] = v; });
+      res.writeHead(response.status, headers);
+      res.end(text);
+    } catch (err) {
+      console.error("inspect-now error:", err);
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: String(err) }));
+    }
+    return;
+  }
+
   // API: /api/chat -> netlify function handler
   if (req.url.startsWith("/api/chat") || req.url.startsWith("/.netlify/functions/chat")) {
     try {
