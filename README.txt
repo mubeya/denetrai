@@ -1,18 +1,22 @@
-DENETRAI - Vercel Sürümü
-========================
+DENETRAI - Netlify Sürümü
+=========================
 
 Yerel açma:
-- index.html dosyasına çift tıklayın (AI chat çalışmaz, sadece statik arayüz).
+- index.html dosyasına çift tıklayın (AI chat yerelde çalışmaz, fallback devreye girer).
 
-Vercel'e deploy:
-1. Bu klasörü bir GitHub reposuna pushlayın.
-2. vercel.com > New Project > repoyu içe aktarın.
-3. Environment Variables bölümüne ekleyin:
-     OPENAI_API_KEY   = sk-...
+Netlify'a deploy:
+1. Bu klasör GitHub reposuna pushlanmış olmalı (mubeya/denetrai).
+2. app.netlify.com > Add new site > Import an existing project > GitHub > denetrai reposunu seç.
+3. Build settings (otomatik algılanır, dokunma):
+     Build command   : (boş)
+     Publish directory: .
+     Functions       : netlify/functions
+4. Site settings > Environment variables ekle:
+     OPENAI_API_KEY = sk-...
      (opsiyonel) OPENAI_MODEL = gpt-4o-mini
-4. Deploy.
+5. Deploy.
 
 Notlar:
-- API anahtarı yalnızca sunucu tarafında (api/chat.js) kullanılır, client'a sızmaz.
-- /api/chat üzerinde IP başına dakikada 20 istek limiti vardır (kötüye kullanım koruması).
-- Logo index.html içine gömülüdür; ayrı dosyaya ihtiyaç yoktur.
+- API anahtarı yalnızca sunucu tarafında (netlify/functions/chat.mjs) kullanılır.
+- /api/chat istekleri netlify.toml içindeki redirect ile /.netlify/functions/chat'e gider.
+- Function üzerinde IP başına dakikada 20 istek limiti vardır.

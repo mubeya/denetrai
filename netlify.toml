@@ -1,0 +1,15 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# /api/chat çağrıları Netlify Function'a yönlendirilir (frontend kodu değişmiyor).
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# SPA fallback: bilinmeyen yolları index.html'e gönder.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
