@@ -1,5 +1,5 @@
 {
-  "version": "2026-05-20T17:39:46.752Z",
+  "version": "2026-05-20T17:47:15.186Z",
   "chunks": [
     {
       "control": "advance",
@@ -11,7 +11,7 @@
       "control": "advance",
       "source": "avans-kapama.docx",
       "title": "Parametreler",
-      "text": "Kural yüzdesi: %50, Azami kapama günü: 120 gün, Hafta sonu düzeltmesi: açık, İstisna politikası: lower (yumuşak)."
+      "text": "Kural yüzdesi: %50, Azami kapama günü: 130 gün, Hafta sonu düzeltmesi: açık, İstisna politikası: lower (yumuşak)."
     },
     {
       "control": "advance",
@@ -53,25 +53,25 @@
       "control": "seller",
       "source": "coklu-satici.docx",
       "title": "Senaryolar",
-      "text": "Fazla belge - büyük fark: Belge tutarı ödemenin %15'inden çok fazlaysa skor 84. Fazla belge - küçük fark: Daha küçük fazlalıkta skor 62. Eksik belge: Ödeme belgeden yüksekse skor 52. Uyumlu: Skor 14."
+      "text": "Fazla belge - büyük fark: Belge tutarı ödemenin %15'inden çok fazlaysa skor 84. Eksik belge: Ödeme belgeden yüksekse skor 52. Uyumlu: Skor 14."
     },
     {
       "control": "limit",
       "source": "proje-limit.docx",
       "title": "Proje Limit Kontrolü",
-      "text": "Müşterinin aynı anda taşıyabileceği aktif proje adedi banka kredi politikası veya sözleşme tarafından sınırlandırılır."
-    },
-    {
-      "control": "limit",
-      "source": "proje-limit.docx",
-      "title": "Aşım Durumları",
-      "text": "Aşım, istisna ve komite onayı ile geçici tolere edilebilir; dayanak belge ibraz edilmelidir."
+      "text": "Müşterinin aynı anda taşıyabileceği aktif proje adedi banka kredi politikası veya sözleşme tarafından sınırlandırılır. Aşım, istisna ve komite onayı ile geçici tolere edilebilir; dayanak belge ibraz edilmelidir."
     },
     {
       "control": "limit",
       "source": "proje-limit.docx",
       "title": "Senaryolar",
-      "text": "Aşım var, istisna yok; Aşım var, istisna var ama dayanak yok; Aşım var, istisna ve dayanak var; Uyumlu."
+      "text": "Aşım var, istisna yok: Skor 82. Yeni proje girişi durdurulmalı; limit, istisna ve komite onayı kontrol edilmeli. Aşım var, istisna var ama dayanak yok: Skor 58. Onay kapsamı ve geçerlilik süresi belgeyle doğrulanmalı."
+    },
+    {
+      "control": "limit",
+      "source": "proje-limit.docx",
+      "title": "Devam Eden Senaryolar",
+      "text": "Aşım var, istisna ve dayanak var: Skor 42. Onay kapsamı rapora eklenmeli, iz kayıtları korunmalı. Uyumlu: Skor 14. Standart izleme yeterli."
     }
   ]
 }
