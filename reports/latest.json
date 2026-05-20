@@ -1,15 +1,91 @@
 {
-  "generatedAt": "2026-05-20T18:38:37.748Z",
+  "generatedAt": "2026-05-20T18:42:34.742Z",
   "rulesVersion": "2026-05-20T18:16:08.866Z",
   "source": "projects.xlsx",
   "summary": {
     "toplam": 6,
     "kritik": 0,
-    "yuksek": 3,
+    "yuksek": 4,
     "orta": 0,
-    "dusuk": 3
+    "dusuk": 2
   },
   "items": [
+    {
+      "projeNo": "PRJ-2026-003",
+      "musteri": "Mavi Liman Tic.",
+      "totalScore": 82,
+      "level": "yuksek",
+      "raw": {
+        "proje_no": "PRJ-2026-003",
+        "musteri": "Mavi Liman Tic.",
+        "finansman_tarihi": "2026-01-10",
+        "vade_gun": 365,
+        "kapama_tarihi": "2027-12-31",
+        "istisna": "H",
+        "istisna_dayanak": "H",
+        "proje_tutari": 800000,
+        "uygun_belge_tutari": 500000,
+        "sistem_ceza_matrahi": 10000,
+        "satici_sayisi": 5,
+        "belge_tutari_toplam": 500000,
+        "odeme_tutari_toplam": 750000,
+        "aktif_proje_sayisi": 9,
+        "proje_limit": 3
+      },
+      "controls": {
+        "advance": {
+          "scenario": "exceeded_no_exception_max_day",
+          "score": 95,
+          "finding": "Kapama tarihi sınırı aşmış ve istisna kaydı bulunamadı; azami gün de geçildi.",
+          "action": "Kapama tarihi 2026-06-09 olacak şekilde düzeltilmeli veya geçerli istisna kaydı aranmalıdır.",
+          "impact": "Denetim öncesi düzeltilmezse BDDK / iç prosedür bulgusuna dönüşebilir.",
+          "detail": {
+            "correctDays": 150,
+            "correctClose": "2026-06-09",
+            "maxDay": 150,
+            "percent": 70
+          }
+        },
+        "penalty": {
+          "scenario": "mismatch_large",
+          "score": 86,
+          "finding": "Fark proje tutarının %5'inden büyükse.",
+          "action": "Uygun belge tutarı ve cezaya konu proje tutarı yeniden hesaplanmalı.",
+          "impact": "Yanlış hesaplama kurum zararı, hatalı gelir kaydı veya teftiş bulgusu doğurabilir.",
+          "detail": {
+            "beklenenMatrah": 300000,
+            "sistemMatrahi": 10000,
+            "fark": 290000,
+            "fark_orani": 36.25
+          }
+        },
+        "seller": {
+          "scenario": "missing_invoice",
+          "score": 52,
+          "finding": "Ödeme belgeden yüksekse eksik belge riski tespit edildi.",
+          "action": "Eksik belge tamamlatılmalı veya ceza matrahı yeniden hesaplanmalıdır.",
+          "impact": "Eksik belge kapama/ceza havuzu sürecinde bulgu riski doğurabilir.",
+          "detail": {
+            "satici_sayisi": 5,
+            "belge_toplam": 500000,
+            "odeme_toplam": 750000,
+            "fark": -250000,
+            "fark_orani": 33.33
+          }
+        },
+        "limit": {
+          "scenario": "exceeded_no_exception",
+          "score": 82,
+          "finding": "Müşteri aktif proje adedi limitin üzerinde. Limit 3, aktif proje 9.",
+          "action": "Yeni proje girişi durdurulmalı; limit, istisna ve komite onayı kontrol edilmeli.",
+          "impact": "Limit aşımı yeni proje girişinde uyum ve operasyonel risk doğurabilir.",
+          "detail": {
+            "aktif_proje": 9,
+            "limit": 3
+          }
+        }
+      }
+    },
     {
       "projeNo": "PRJ-2026-006",
       "musteri": "Anadolu Gıda San.",
@@ -23,7 +99,7 @@
         "kapama_tarihi": "2026-07-10",
         "istisna": "H",
         "istisna_dayanak": "H",
-        "proje_tutari": 7500000,
+        "proje_tutari": 75300000,
         "uygun_belge_tutari": 4800000,
         "sistem_ceza_matrahi": 1900000,
         "satici_sayisi": 3,
@@ -53,10 +129,10 @@
           "action": "Uygun belge tutarı ve cezaya konu proje tutarı yeniden hesaplanmalı.",
           "impact": "Yanlış hesaplama kurum zararı, hatalı gelir kaydı veya teftiş bulgusu doğurabilir.",
           "detail": {
-            "beklenenMatrah": 2700000,
+            "beklenenMatrah": 70500000,
             "sistemMatrahi": 1900000,
-            "fark": 800000,
-            "fark_orani": 10.67
+            "fark": 68600000,
+            "fark_orani": 91.1
           }
         },
         "seller": {
@@ -84,10 +160,6 @@
             "limit": 5
           }
         }
-      },
-      "ai": {
-        "ozet": "Kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Müşteri aktif proje adedi limitin üzerindedir.",
-        "aksiyon": "Müşterinin aktif projelerini gözden geçirerek limit aşımını düzeltmek için gerekli adımlar atılmalıdır."
       }
     },
     {
@@ -164,10 +236,6 @@
             "limit": 5
           }
         }
-      },
-      "ai": {
-        "ozet": "Kapama tarihi normal kurala göre aşılmış; istisna kaydı mevcut ancak dayanak belgesi yok. Limit aşımı söz konusudur.",
-        "aksiyon": "İstisna kaydı için gerekli belgelerin tamamlanması sağlanmalıdır."
       }
     },
     {
@@ -244,10 +312,6 @@
             "limit": 5
           }
         }
-      },
-      "ai": {
-        "ozet": "Kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Ödeme belgesinde eksiklik riski tespit edilmiştir.",
-        "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile iletişime geçilmelidir."
       }
     },
     {
@@ -391,75 +455,6 @@
           "detail": {
             "aktif_proje": 3,
             "limit": 5
-          }
-        }
-      }
-    },
-    {
-      "projeNo": "PRJ-2026-003",
-      "musteri": "Mavi Liman Tic.",
-      "totalScore": 16,
-      "level": "dusuk",
-      "raw": {
-        "proje_no": "PRJ-2026-003",
-        "musteri": "Mavi Liman Tic.",
-        "finansman_tarihi": "2026-01-10",
-        "vade_gun": 365,
-        "kapama_tarihi": "2026-04-15",
-        "istisna": "H",
-        "istisna_dayanak": "H",
-        "proje_tutari": 800000,
-        "uygun_belge_tutari": 780000,
-        "sistem_ceza_matrahi": 20000,
-        "satici_sayisi": 1,
-        "belge_tutari_toplam": 780000,
-        "odeme_tutari_toplam": 780000,
-        "aktif_proje_sayisi": 1,
-        "proje_limit": 3
-      },
-      "controls": {
-        "advance": {
-          "scenario": "compliant",
-          "score": 18,
-          "finding": "Avans kapama tarihi kural sınırları içinde.",
-          "action": "Standart izleme ve kayıt bütünlüğü korunmalıdır.",
-          "impact": "Bulgu riski düşük.",
-          "detail": {
-            "correctDays": 150,
-            "correctClose": "2026-06-09",
-            "maxDay": 150,
-            "percent": 70
-          }
-        },
-        "penalty": {
-          "scenario": "compliant",
-          "score": 16,
-          "finding": "Belge ayrıştırma ve uygunluk kayıtları izlenmeye devam edilmeli.",
-          "action": "Belge ayrıştırma ve uygunluk kayıtları izlenmeye devam edilmelidir.",
-          "impact": "Bulgu riski düşük.",
-          "detail": {
-            "beklenenMatrah": 20000,
-            "sistemMatrahi": 20000,
-            "fark": 0,
-            "fark_orani": 0
-          }
-        },
-        "seller": {
-          "scenario": "compliant_single",
-          "score": 14,
-          "finding": "Tek satıcı; çoklu satıcı kontrolü uygulanmaz.",
-          "action": "Standart izleme yeterli.",
-          "impact": "Bulgu riski düşük."
-        },
-        "limit": {
-          "scenario": "compliant",
-          "score": 14,
-          "finding": "Proje adedi tanımlı limit içinde.",
-          "action": "Standart izleme yeterli.",
-          "impact": "Bulgu riski düşük.",
-          "detail": {
-            "aktif_proje": 1,
-            "limit": 3
           }
         }
       }
