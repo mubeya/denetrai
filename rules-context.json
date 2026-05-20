@@ -1,5 +1,5 @@
 {
-  "version": "2026-05-20T17:57:42.022Z",
+  "version": "2026-05-20T18:16:08.866Z",
   "chunks": [
     {
       "control": "advance",
@@ -11,13 +11,13 @@
       "control": "advance",
       "source": "avans-kapama.docx",
       "title": "Parametreler",
-      "text": "Kural yüzdesi: %60, Azami kapama günü: 130 gün, Hafta sonu düzeltmesi: açık, İstisna politikası: lower (yumuşak)."
+      "text": "Kural yüzdesi: %70, Azami kapama günü: 150 gün, Hafta sonu düzeltmesi: açık, İstisna politikası: lower (yumuşak)."
     },
     {
       "control": "advance",
       "source": "avans-kapama.docx",
       "title": "Senaryolar",
-      "text": "Aşım var, istisna yok: Kapama tarihi sınırı aşmış ve istisna kaydı bulunamadıysa risk yüksek. Aşım var, istisna var ama dayanak belge yok: İstisna dayanağının komite onay kaydıyla tamamlanması istenmeli."
+      "text": "Aşım var, istisna yok: Kapama tarihi sınırı aşmış ve istisna kaydı bulunamadıysa risk yüksek. Aşım var, istisna var ama dayanak belge yok: İstisna dayanağının komite onay kaydıyla tamamlanması istenmeli. Aşım var, istisna ve dayanak belgesi var: Dayanak belgesi rapora eklenmeli, iz kayıtları korunmalı."
     },
     {
       "control": "penalty",
@@ -35,7 +35,7 @@
       "control": "penalty",
       "source": "ceza-havuzu.docx",
       "title": "Senaryolar",
-      "text": "Uyumsuzluk - büyük fark: Fark proje tutarının %5'inden büyükse skor 86. Uyumsuzluk - küçük fark: Fark daha küçükse skor 65. Uygun belge tutarı ve cezaya konu proje tutarı yeniden hesaplanmalı. Uyumlu: Skor 16. Belge ayrıştırma ve uygunluk kayıtları izlenmeye devam edilmeli."
+      "text": "Uyumsuzluk - büyük fark: Fark proje tutarının %5'inden büyükse skor 86. Uyumsuzluk - küçük fark: Fark daha küçükse skor 65. Uyumlu: Skor 16. Belge ayrıştırma ve uygunluk kayıtları izlenmeye devam edilmeli."
     },
     {
       "control": "seller",
