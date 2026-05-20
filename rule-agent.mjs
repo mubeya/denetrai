@@ -51,7 +51,9 @@ if (fs.existsSync(ENV_PATH)) {
 }
 
 if (!process.env.OPENAI_API_KEY) {
-  console.error("HATA: OPENAI_API_KEY tanımlı değil (.env.local'a ekleyin).");
+  console.error("HATA: OPENAI_API_KEY tanımlı değil.");
+  console.error("  - Lokal: .env.local dosyasına OPENAI_API_KEY=sk-... ekleyin");
+  console.error("  - GitHub Actions: repo Settings > Secrets > Actions > OPENAI_API_KEY secret'ı ekleyin");
   process.exit(1);
 }
 
