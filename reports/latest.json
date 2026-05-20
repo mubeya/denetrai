@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-20T18:32:58.854Z",
-  "rulesVersion": "2026-05-20T17:57:42.022Z",
+  "generatedAt": "2026-05-20T18:38:37.748Z",
+  "rulesVersion": "2026-05-20T18:16:08.866Z",
   "source": "projects.xlsx",
   "summary": {
     "toplam": 6,
@@ -37,13 +37,13 @@
           "scenario": "exceeded_no_exception_max_day",
           "score": 95,
           "finding": "Kapama tarihi sınırı aşmış ve istisna kaydı bulunamadı; azami gün de geçildi.",
-          "action": "Kapama tarihi 2025-12-15 olacak şekilde düzeltilmeli veya geçerli istisna kaydı aranmalıdır.",
+          "action": "Kapama tarihi 2026-01-02 olacak şekilde düzeltilmeli veya geçerli istisna kaydı aranmalıdır.",
           "impact": "Denetim öncesi düzeltilmezse BDDK / iç prosedür bulgusuna dönüşebilir.",
           "detail": {
-            "correctDays": 130,
-            "correctClose": "2025-12-15",
-            "maxDay": 130,
-            "percent": 60
+            "correctDays": 150,
+            "correctClose": "2026-01-02",
+            "maxDay": 150,
+            "percent": 70
           }
         },
         "penalty": {
@@ -84,6 +84,10 @@
             "limit": 5
           }
         }
+      },
+      "ai": {
+        "ozet": "Kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Müşteri aktif proje adedi limitin üzerindedir.",
+        "aksiyon": "Müşterinin aktif projelerini gözden geçirerek limit aşımını düzeltmek için gerekli adımlar atılmalıdır."
       }
     },
     {
@@ -116,10 +120,10 @@
           "action": "İstisna dayanağı, komite/onay kaydı ve sistem izleri tamamlanmalıdır.",
           "impact": "İstisna dayanağı yoksa bulgu riski devam eder.",
           "detail": {
-            "correctDays": 108,
-            "correctClose": "2026-01-01",
-            "maxDay": 130,
-            "percent": 60
+            "correctDays": 126,
+            "correctClose": "2026-01-19",
+            "maxDay": 150,
+            "percent": 70
           }
         },
         "penalty": {
@@ -160,6 +164,10 @@
             "limit": 5
           }
         }
+      },
+      "ai": {
+        "ozet": "Kapama tarihi normal kurala göre aşılmış; istisna kaydı mevcut ancak dayanak belgesi yok. Limit aşımı söz konusudur.",
+        "aksiyon": "İstisna kaydı için gerekli belgelerin tamamlanması sağlanmalıdır."
       }
     },
     {
@@ -189,13 +197,13 @@
           "scenario": "exceeded_no_exception_max_day",
           "score": 95,
           "finding": "Kapama tarihi sınırı aşmış ve istisna kaydı bulunamadı; azami gün de geçildi.",
-          "action": "Kapama tarihi 2025-10-09 olacak şekilde düzeltilmeli veya geçerli istisna kaydı aranmalıdır.",
+          "action": "Kapama tarihi 2025-10-29 olacak şekilde düzeltilmeli veya geçerli istisna kaydı aranmalıdır.",
           "impact": "Denetim öncesi düzeltilmezse BDDK / iç prosedür bulgusuna dönüşebilir.",
           "detail": {
-            "correctDays": 130,
-            "correctClose": "2025-10-09",
-            "maxDay": 130,
-            "percent": 60
+            "correctDays": 150,
+            "correctClose": "2025-10-29",
+            "maxDay": 150,
+            "percent": 70
           }
         },
         "penalty": {
@@ -236,6 +244,10 @@
             "limit": 5
           }
         }
+      },
+      "ai": {
+        "ozet": "Kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Ödeme belgesinde eksiklik riski tespit edilmiştir.",
+        "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile iletişime geçilmelidir."
       }
     },
     {
@@ -268,10 +280,10 @@
           "action": "İstisna dayanağı rapora eklenerek iz kayıtları korunmalıdır.",
           "impact": "Dokümantasyon tam ise bulguya dönüşme olasılığı düşer.",
           "detail": {
-            "correctDays": 130,
-            "correctClose": "2026-03-30",
-            "maxDay": 130,
-            "percent": 60
+            "correctDays": 150,
+            "correctClose": "2026-04-20",
+            "maxDay": 150,
+            "percent": 70
           }
         },
         "penalty": {
@@ -344,10 +356,10 @@
           "action": "Standart izleme ve kayıt bütünlüğü korunmalıdır.",
           "impact": "Bulgu riski düşük.",
           "detail": {
-            "correctDays": 130,
-            "correctClose": "2026-04-10",
-            "maxDay": 130,
-            "percent": 60
+            "correctDays": 150,
+            "correctClose": "2026-04-30",
+            "maxDay": 150,
+            "percent": 70
           }
         },
         "penalty": {
@@ -413,10 +425,10 @@
           "action": "Standart izleme ve kayıt bütünlüğü korunmalıdır.",
           "impact": "Bulgu riski düşük.",
           "detail": {
-            "correctDays": 130,
-            "correctClose": "2026-05-20",
-            "maxDay": 130,
-            "percent": 60
+            "correctDays": 150,
+            "correctClose": "2026-06-09",
+            "maxDay": 150,
+            "percent": 70
           }
         },
         "penalty": {
