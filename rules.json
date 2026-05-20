@@ -1,0 +1,137 @@
+{
+  "version": "2025-01-01T00:00:00.000Z",
+  "source": "seed (hardcoded'dan dönüştürüldü)",
+  "severity": {
+    "criticalScoreAbove": 90,
+    "highScoreAbove": 70,
+    "mediumScoreAbove": 40
+  },
+  "globalContext": "DenetrAI, Kuveyt Türk proje finansmanı sürecindeki dört temel kontrolü (Avans Kapama, Ceza Havuzu, Çoklu Satıcı, Proje Limit) otomatik denetler. Kurallar BDDK iç prosedürlerine ve banka kredi operasyon yönetmeliğine dayanır.",
+  "controls": {
+    "advance": {
+      "label": "Avans Kapama",
+      "context": "Avans kapama tarihi vade gün × yüzde formülüyle hesaplanır. Azami gün üst sınırı uygulanır. Hafta sonuna denk gelirse ilk iş gününe çekilir. İstisna kaydı varsa puanlama yumuşar.",
+      "params": {
+        "percent": 30,
+        "maxDay": 90,
+        "adjustWeekend": true,
+        "exceptionPolicy": "lower"
+      },
+      "scenarios": {
+        "exceeded_no_exception": {
+          "score": 80,
+          "scoreIfBeyondMaxDay": 94,
+          "finding": "Mevcut kapama, doğru kapama sınırını aşıyor. Doğru kapama: ${correctClose}, mevcut kayıt: ${currentClose}.",
+          "action": "Kapama tarihi ${correctClose} olacak şekilde düzeltilmeli veya geçerli istisna kaydı aranmalıdır.",
+          "impact": "Denetim öncesi düzeltilmezse BDDK / iç prosedür bulgusuna dönüşebilir."
+        },
+        "exceeded_exception_no_doc": {
+          "scoreStrict": 76,
+          "scoreLower": 56,
+          "finding": "Kapama tarihi normal kurala göre sınırı aşıyor; istisna kaydı var ancak dayanak/onay belgesi görünmüyor.",
+          "action": "İstisna dayanağı, komite/onay kaydı ve sistem izleri tamamlanmalıdır.",
+          "impact": "İstisna dayanağı yoksa bulgu riski devam eder."
+        },
+        "exceeded_exception_with_doc": {
+          "score": 42,
+          "finding": "Kapama tarihi normal kurala göre sınırı aşıyor; istisna ve dayanak kaydı bulundu. Doğru tarih: ${correctCloseDate}.",
+          "action": "İstisna dayanağı rapora eklenerek iz kayıtları korunmalıdır.",
+          "impact": "Dokümantasyon tam ise bulguya dönüşme olasılığı düşer."
+        },
+        "missing_start_date": {
+          "score": 38,
+          "finding": "Finansman tarihi olmadığı için doğru kapama tarihi hesaplanamadı; sadece doğru kapama günü hesaplanabilir.",
+          "action": "Excel dosyasına Finansman Tarihi alanı eklenmelidir.",
+          "impact": "Eksik veri nedeniyle otomatik kontrol güvenilirliği düşer."
+        },
+        "compliant": {
+          "score": 16,
+          "finding": "Avans kapama tarihi kural sınırları içinde. Doğru kapama tarihi: ${correctCloseDate}.",
+          "action": "Standart izleme ve kayıt bütünlüğü korunmalıdır.",
+          "impact": "Bulgu riski düşük."
+        }
+      }
+    },
+    "penalty": {
+      "label": "Ceza Havuzu",
+      "context": "Ceza havuzu matrahı = Proje tutarı − Uygun gelen belge tutarı. Bu hesap ile sistemde kayıtlı ceza matrahı karşılaştırılır. Fark proje tutarının %5'inden büyükse risk yüksek.",
+      "params": {
+        "largeDiffRatio": 0.05
+      },
+      "scenarios": {
+        "mismatch": {
+          "score": 65,
+          "scoreIfLargeDiff": 86,
+          "finding": "Ceza havuzu matrahı ile hesaplanan tutar arasında ${diff} fark var.",
+          "action": "Uygun belge tutarı ve cezaya konu proje tutarı yeniden hesaplanmalı; kayıt düzeltilmelidir.",
+          "impact": "Yanlış hesaplama kurum zararı, hatalı gelir kaydı veya teftiş bulgusu doğurabilir."
+        },
+        "compliant": {
+          "score": 16,
+          "finding": "Ceza havuzu matrahı beklenen hesapla uyumlu.",
+          "action": "Belge ayrıştırma ve uygunluk kayıtları izlenmeye devam edilmelidir.",
+          "impact": "Bulgu riski düşük."
+        }
+      }
+    },
+    "seller": {
+      "label": "Çoklu Satıcı",
+      "context": "Satıcıya yapılan ödeme tutarı ile satıcı fatura/belge tutarı eşleşmelidir. Belge fazlaysa ceza havuzu yanlış hesaplanır; ödeme fazlaysa eksik belge riski.",
+      "params": {
+        "largeDiffRatio": 0.15
+      },
+      "scenarios": {
+        "excess_invoice": {
+          "score": 62,
+          "scoreIfLargeDiff": 84,
+          "finding": "Satıcıya yapılan ödeme tutarından fazla belge/fatura girişi tespit edildi. Fark: ${diff}.",
+          "action": "Satıcı bazlı ödeme-belge eşleşmesi kontrol edilmeli; fazla belge gelen belge tutarına dahil edilmemelidir.",
+          "impact": "Fazla belge girişi ceza havuzu hesabını ve uygun belge tutarını hatalı etkileyebilir."
+        },
+        "missing_invoice": {
+          "score": 52,
+          "finding": "Satıcı ödeme tutarı belge tutarından yüksek. Eksik belge riski: ${absDiff}.",
+          "action": "Eksik belge tamamlatılmalı veya cezaya konu tutar yeniden hesaplanmalıdır.",
+          "impact": "Eksik belge kapama/ceza havuzu sürecinde bulgu riski doğurabilir."
+        },
+        "compliant": {
+          "score": 14,
+          "finding": "Satıcı ödeme ve belge tutarı uyumlu.",
+          "action": "Standart izleme yeterli.",
+          "impact": "Bulgu riski düşük."
+        }
+      }
+    },
+    "limit": {
+      "label": "Proje Limit",
+      "context": "Müşterinin aynı anda taşıyabileceği aktif proje adedi sözleşmeyle veya iç kredi politikasıyla sınırlandırılmıştır. Aşım istisna ve komite onayı ile geçici tolere edilebilir.",
+      "params": {},
+      "scenarios": {
+        "exceeded_no_exception": {
+          "score": 82,
+          "finding": "Müşteri aktif proje adedi limitin üzerinde. Limit ${projectLimit}, aktif proje ${activeProjectCount}.",
+          "action": "Yeni proje girişi durdurulmalı; limit, istisna ve komite onayı kontrol edilmelidir.",
+          "impact": "Limit aşımı yeni proje girişinde uyum ve operasyonel risk doğurabilir."
+        },
+        "exceeded_exception_no_doc": {
+          "score": 58,
+          "finding": "Limit aşımı var; istisna/komite onayı işaretlenmiş ancak dayanak belge belirtilmemiş.",
+          "action": "Onay kapsamı ve geçerlilik süresi belgeyle doğrulanmalıdır.",
+          "impact": "Dayanak eksikliği varsa bulguya dönüşebilir."
+        },
+        "exceeded_exception_with_doc": {
+          "score": 42,
+          "finding": "Limit aşımı var; ancak istisna/komite onayı ve dayanak bilgisi bulunuyor.",
+          "action": "Onay kapsamı rapora eklenmeli ve iz kayıtları korunmalıdır.",
+          "impact": "Dokümantasyon tam ise risk düşer."
+        },
+        "compliant": {
+          "score": 14,
+          "finding": "Proje adedi tanımlı limit içinde.",
+          "action": "Standart izleme yeterli.",
+          "impact": "Bulgu riski düşük."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "version": "2025-01-01T00:00:00.000Z",
+  "chunks": [
+    {
+      "control": "advance",
+      "source": "seed",
+      "title": "Avans Kapama özet",
+      "text": "Avans kapama günü = vade gün × kural yüzdesi (varsayılan %30), azami 90 gün ile sınırlı. Hafta sonuna denk gelirse Pazartesi'ye çekilir. İstisna kaydı + dayanak belge varsa skor 42'ye iner, sadece istisna varsa katı politikada 76 / yumuşak politikada 56 olur."
+    },
+    {
+      "control": "penalty",
+      "source": "seed",
+      "title": "Ceza Havuzu hesaplama",
+      "text": "Beklenen ceza matrahı = Proje Tutarı − Uygun Belge Tutarı. Sistem kayıtlı matrah ile fark proje tutarının %5'ini geçerse skor 86, geçmezse 65. Hesap uyumluysa skor 16."
+    },
+    {
+      "control": "seller",
+      "source": "seed",
+      "title": "Çoklu Satıcı uyumu",
+      "text": "Satıcı bazlı: belge tutarı − ödeme tutarı. Belge ödemeden fazla ve fark ödemenin %15'inden büyükse skor 84, küçükse 62. Belge eksikse skor 52. Eşitse 14."
+    },
+    {
+      "control": "limit",
+      "source": "seed",
+      "title": "Proje Limit kontrolü",
+      "text": "Aktif proje sayısı tanımlı limiti geçerse: istisna yok → 82, istisna var ama dayanak yok → 58, dayanak var → 42. Limit içindeyse 14."
+    }
+  ]
+}

@@ -3,3 +3,7 @@
 .env
 .env.local
 .DS_Store
+.npmrc
+~$*
+rules.json.bak
+rules-context.json.bak

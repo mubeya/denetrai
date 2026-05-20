@@ -893,12 +893,62 @@ function setRulePresetQuick(p,m){
   setRuleValues(p,m);
   document.getElementById("rulePreset").value = p===30 && m===90 ? "30-90" : p===25 && m===75 ? "25-75" : "custom";
 }
-function ruleParams(){
+
+// ===== Rules loader (rules.json) =====
+let RULES = null;
+async function loadRules(){
+  try {
+    const res = await fetch("./rules.json", { cache: "no-store" });
+    if (res.ok) {
+      RULES = await res.json();
+      // Form input default'larını rules'tan güncelle (kullanıcı henüz dokunmadıysa)
+      const ap = RULES.controls?.advance?.params || {};
+      if (ap.percent != null) {
+        document.getElementById("rulePercent").value = ap.percent;
+        const r2 = document.getElementById("rulePercent2"); if (r2) r2.value = ap.percent;
+      }
+      if (ap.maxDay != null) {
+        document.getElementById("ruleMaxDay").value = ap.maxDay;
+        const m2 = document.getElementById("ruleMaxDay2"); if (m2) m2.value = ap.maxDay;
+      }
+      if (typeof ap.adjustWeekend === "boolean") {
+        document.getElementById("adjustWeekend").checked = ap.adjustWeekend;
+        const a2 = document.getElementById("adjustWeekend2"); if (a2) a2.checked = ap.adjustWeekend;
+      }
+      if (ap.exceptionPolicy) {
+        const ep = document.getElementById("exceptionPolicy"); if (ep) ep.value = ap.exceptionPolicy;
+      }
+      console.log("rules.json yüklendi:", RULES.version || "(sürümsüz)");
+    }
+  } catch (e) { console.warn("rules.json yüklenemedi, hardcoded fallback kullanılacak.", e); }
+}
+function interp(tpl, vars){
+  return String(tpl || "").replace(/\$\{(\w+)\}/g, (_, k) => (vars[k] != null ? vars[k] : "-"));
+}
+function scenario(controlType, key, vars = {}){
+  const sc = RULES?.controls?.[controlType]?.scenarios?.[key] || {};
   return {
-    percent: toNumber(document.getElementById("rulePercent").value) || 30,
-    maxDay: toNumber(document.getElementById("ruleMaxDay").value) || 90,
+    raw: sc,
+    score:   sc.score,
+    finding: interp(sc.finding, vars),
+    action:  interp(sc.action,  vars),
+    impact:  interp(sc.impact,  vars)
+  };
+}
+// rules.json'u boot'ta yükle (DOM hazır olduğunda)
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", loadRules);
+} else {
+  loadRules();
+}
+
+function ruleParams(){
+  const def = (RULES && RULES.controls && RULES.controls.advance && RULES.controls.advance.params) || {};
+  return {
+    percent: toNumber(document.getElementById("rulePercent").value) || def.percent || 30,
+    maxDay: toNumber(document.getElementById("ruleMaxDay").value) || def.maxDay || 90,
     adjustWeekend: document.getElementById("adjustWeekend").checked,
-    exceptionPolicy: document.getElementById("exceptionPolicy")?.value || "lower"
+    exceptionPolicy: document.getElementById("exceptionPolicy")?.value || def.exceptionPolicy || "lower"
   };
 }
 function applyRulesAndReanalyse(){
@@ -1086,30 +1136,35 @@ function analyse(raw){
       `İstisna kaydı: ${p.exception}; dayanak belge: ${p.exceptionDocument || "Yok"}`
     ];
     if(exceeded && !exceptionOk){
-      score = p.advanceCloseDay > rp.maxDay ? 94 : 80;
-      finding = `Mevcut kapama, doğru kapama sınırını aşıyor. Doğru kapama: ${p.correctCloseDate || p.correctCloseDay + " gün"}, mevcut kayıt: ${p.currentCloseDate || p.advanceCloseDay + " gün"}.`;
-      action = `Kapama tarihi ${p.correctCloseDate || p.correctCloseDay + " gün"} olacak şekilde düzeltilmeli veya geçerli istisna kaydı aranmalıdır.`;
-      impact = "Denetim öncesi düzeltilmezse BDDK / iç prosedür bulgusuna dönüşebilir.";
+      const _r = scenario("advance","exceeded_no_exception", { correctClose: p.correctCloseDate || p.correctCloseDay + " gün", currentClose: p.currentCloseDate || p.advanceCloseDay + " gün" });
+      score = p.advanceCloseDay > rp.maxDay ? (_r.raw.scoreIfBeyondMaxDay ?? 94) : (_r.score ?? 80);
+      finding = _r.finding || `Mevcut kapama, doğru kapama sınırını aşıyor. Doğru kapama: ${p.correctCloseDate || p.correctCloseDay + " gün"}, mevcut kayıt: ${p.currentCloseDate || p.advanceCloseDay + " gün"}.`;
+      action  = _r.action  || `Kapama tarihi ${p.correctCloseDate || p.correctCloseDay + " gün"} olacak şekilde düzeltilmeli veya geçerli istisna kaydı aranmalıdır.`;
+      impact  = _r.impact  || "Denetim öncesi düzeltilmezse BDDK / iç prosedür bulgusuna dönüşebilir.";
     } else if(exceeded && exceptionOk && !exceptionDocOk){
-      score = rp.exceptionPolicy === "strict" ? 76 : 56;
-      finding = `Kapama tarihi normal kurala göre sınırı aşıyor; istisna kaydı var ancak dayanak/onay belgesi görünmüyor.`;
-      action = "İstisna dayanağı, komite/onay kaydı ve sistem izleri tamamlanmalıdır.";
-      impact = "İstisna dayanağı yoksa bulgu riski devam eder.";
+      const _r = scenario("advance","exceeded_exception_no_doc");
+      score = rp.exceptionPolicy === "strict" ? (_r.raw.scoreStrict ?? 76) : (_r.raw.scoreLower ?? 56);
+      finding = _r.finding || `Kapama tarihi normal kurala göre sınırı aşıyor; istisna kaydı var ancak dayanak/onay belgesi görünmüyor.`;
+      action  = _r.action  || "İstisna dayanağı, komite/onay kaydı ve sistem izleri tamamlanmalıdır.";
+      impact  = _r.impact  || "İstisna dayanağı yoksa bulgu riski devam eder.";
     } else if(exceeded && exceptionDocOk){
-      score = 42;
-      finding = `Kapama tarihi normal kurala göre sınırı aşıyor; istisna ve dayanak kaydı bulundu. Doğru tarih: ${p.correctCloseDate || "-"}.`;
-      action = "İstisna dayanağı rapora eklenerek iz kayıtları korunmalıdır.";
-      impact = "Dokümantasyon tam ise bulguya dönüşme olasılığı düşer.";
+      const _r = scenario("advance","exceeded_exception_with_doc", { correctCloseDate: p.correctCloseDate || "-" });
+      score = _r.score ?? 42;
+      finding = _r.finding || `Kapama tarihi normal kurala göre sınırı aşıyor; istisna ve dayanak kaydı bulundu. Doğru tarih: ${p.correctCloseDate || "-"}.`;
+      action  = _r.action  || "İstisna dayanağı rapora eklenerek iz kayıtları korunmalıdır.";
+      impact  = _r.impact  || "Dokümantasyon tam ise bulguya dönüşme olasılığı düşer.";
     } else if(!p.startDate){
-      score = 38;
-      finding = "Finansman tarihi olmadığı için doğru kapama tarihi hesaplanamadı; sadece doğru kapama günü hesaplanabilir.";
-      action = "Excel dosyasına Finansman Tarihi alanı eklenmelidir.";
-      impact = "Eksik veri nedeniyle otomatik kontrol güvenilirliği düşer.";
+      const _r = scenario("advance","missing_start_date");
+      score = _r.score ?? 38;
+      finding = _r.finding || "Finansman tarihi olmadığı için doğru kapama tarihi hesaplanamadı; sadece doğru kapama günü hesaplanabilir.";
+      action  = _r.action  || "Excel dosyasına Finansman Tarihi alanı eklenmelidir.";
+      impact  = _r.impact  || "Eksik veri nedeniyle otomatik kontrol güvenilirliği düşer.";
     } else {
-      score = 16;
-      finding = `Avans kapama tarihi kural sınırları içinde. Doğru kapama tarihi: ${p.correctCloseDate}.`;
-      action = "Standart izleme ve kayıt bütünlüğü korunmalıdır.";
-      impact = "Bulgu riski düşük.";
+      const _r = scenario("advance","compliant", { correctCloseDate: p.correctCloseDate });
+      score = _r.score ?? 16;
+      finding = _r.finding || `Avans kapama tarihi kural sınırları içinde. Doğru kapama tarihi: ${p.correctCloseDate}.`;
+      action  = _r.action  || "Standart izleme ve kayıt bütünlüğü korunmalıdır.";
+      impact  = _r.impact  || "Bulgu riski düşük.";
     }
   }
 
@@ -1119,11 +1174,19 @@ function analyse(raw){
     p.expectedPenaltyBase = expected; p.penaltyDifference = diff; p.effectText = formatTL(Math.abs(diff)) + " fark"; potentialImpact = Math.abs(diff);
     details = [`Kontrol edilen kural: Proje Tutarı - Uygun Gelen Belge Tutarı = Cezaya Konu Tutar`, `Proje tutarı = ${formatTL(p.projectAmount)}`, `Uygun gelen belge tutarı = ${formatTL(p.validDocs)}`, `Beklenen cezaya konu tutar = ${formatTL(expected)}`, `Sistem kayıtlı ceza matrahı = ${formatTL(p.recordedPenaltyBase)}`, `Fark = ${formatTL(Math.abs(diff))}`];
     if(Math.abs(diff) > 0){
-      score = Math.abs(diff) > p.projectAmount * 0.05 ? 86 : 65;
-      finding = `Ceza havuzu matrahı ile hesaplanan tutar arasında ${formatTL(Math.abs(diff))} fark var.`;
-      action = "Uygun belge tutarı ve cezaya konu proje tutarı yeniden hesaplanmalı; kayıt düzeltilmelidir.";
-      impact = "Yanlış hesaplama kurum zararı, hatalı gelir kaydı veya teftiş bulgusu doğurabilir.";
-    } else { score = 16; finding = "Ceza havuzu matrahı beklenen hesapla uyumlu."; action = "Belge ayrıştırma ve uygunluk kayıtları izlenmeye devam edilmelidir."; }
+      const _ratio = RULES?.controls?.penalty?.params?.largeDiffRatio ?? 0.05;
+      const _r = scenario("penalty","mismatch", { diff: formatTL(Math.abs(diff)) });
+      score = Math.abs(diff) > p.projectAmount * _ratio ? (_r.raw.scoreIfLargeDiff ?? 86) : (_r.score ?? 65);
+      finding = _r.finding || `Ceza havuzu matrahı ile hesaplanan tutar arasında ${formatTL(Math.abs(diff))} fark var.`;
+      action  = _r.action  || "Uygun belge tutarı ve cezaya konu proje tutarı yeniden hesaplanmalı; kayıt düzeltilmelidir.";
+      impact  = _r.impact  || "Yanlış hesaplama kurum zararı, hatalı gelir kaydı veya teftiş bulgusu doğurabilir.";
+    } else {
+      const _r = scenario("penalty","compliant");
+      score = _r.score ?? 16;
+      finding = _r.finding || "Ceza havuzu matrahı beklenen hesapla uyumlu.";
+      action  = _r.action  || "Belge ayrıştırma ve uygunluk kayıtları izlenmeye devam edilmelidir.";
+      impact  = _r.impact  || "Bulgu riski düşük.";
+    }
   }
 
   if(p.type === "seller"){
@@ -1131,16 +1194,25 @@ function analyse(raw){
     p.sellerDifference = diff; p.effectText = formatTL(Math.abs(diff)) + " satıcı farkı"; potentialImpact = Math.abs(diff);
     details = [`Kontrol edilen kural: Satıcı ödeme tutarı ile satıcı belge/fatura tutarı eşleşmelidir.`, `Satıcı ödeme tutarı = ${formatTL(p.sellerPaymentAmount)}`, `Satıcı fatura/belge tutarı = ${formatTL(p.sellerInvoiceAmount)}`, `Fark = ${formatTL(Math.abs(diff))}`];
     if(diff > 0){
-      score = diff > p.sellerPaymentAmount * 0.15 ? 84 : 62;
-      finding = `Satıcıya yapılan ödeme tutarından fazla belge/fatura girişi tespit edildi. Fark: ${formatTL(diff)}.`;
-      action = "Satıcı bazlı ödeme-belge eşleşmesi kontrol edilmeli; fazla belge gelen belge tutarına dahil edilmemelidir.";
-      impact = "Fazla belge girişi ceza havuzu hesabını ve uygun belge tutarını hatalı etkileyebilir.";
+      const _ratio = RULES?.controls?.seller?.params?.largeDiffRatio ?? 0.15;
+      const _r = scenario("seller","excess_invoice", { diff: formatTL(diff), absDiff: formatTL(Math.abs(diff)) });
+      score = diff > p.sellerPaymentAmount * _ratio ? (_r.raw.scoreIfLargeDiff ?? 84) : (_r.score ?? 62);
+      finding = _r.finding || `Satıcıya yapılan ödeme tutarından fazla belge/fatura girişi tespit edildi. Fark: ${formatTL(diff)}.`;
+      action  = _r.action  || "Satıcı bazlı ödeme-belge eşleşmesi kontrol edilmeli; fazla belge gelen belge tutarına dahil edilmemelidir.";
+      impact  = _r.impact  || "Fazla belge girişi ceza havuzu hesabını ve uygun belge tutarını hatalı etkileyebilir.";
     } else if(diff < 0){
-      score = 52;
-      finding = `Satıcı ödeme tutarı belge tutarından yüksek. Eksik belge riski: ${formatTL(Math.abs(diff))}.`;
-      action = "Eksik belge tamamlatılmalı veya cezaya konu tutar yeniden hesaplanmalıdır.";
-      impact = "Eksik belge kapama/ceza havuzu sürecinde bulgu riski doğurabilir.";
-    } else { score = 14; finding = "Satıcı ödeme ve belge tutarı uyumlu."; action = "Standart izleme yeterli."; }
+      const _r = scenario("seller","missing_invoice", { absDiff: formatTL(Math.abs(diff)) });
+      score = _r.score ?? 52;
+      finding = _r.finding || `Satıcı ödeme tutarı belge tutarından yüksek. Eksik belge riski: ${formatTL(Math.abs(diff))}.`;
+      action  = _r.action  || "Eksik belge tamamlatılmalı veya cezaya konu tutar yeniden hesaplanmalıdır.";
+      impact  = _r.impact  || "Eksik belge kapama/ceza havuzu sürecinde bulgu riski doğurabilir.";
+    } else {
+      const _r = scenario("seller","compliant");
+      score = _r.score ?? 14;
+      finding = _r.finding || "Satıcı ödeme ve belge tutarı uyumlu.";
+      action  = _r.action  || "Standart izleme yeterli.";
+      impact  = _r.impact  || "Bulgu riski düşük.";
+    }
   }
 
   if(p.type === "limit"){
@@ -1151,26 +1223,41 @@ function analyse(raw){
     potentialImpact = exceeded ? p.projectAmount : 0;
     details = [`Kontrol edilen kural: Aktif proje adedi tanımlı limitin üzerinde olmamalıdır.`, `Aktif proje adedi = ${p.activeProjectCount}`, `Tanımlı limit = ${p.projectLimit}`, `İstisna / komite onayı = ${p.exception}; dayanak belge = ${p.exceptionDocument || "Yok"}`];
     if(exceeded && !exceptionOk){
-      score = 82; finding = `Müşteri aktif proje adedi limitin üzerinde. Limit ${p.projectLimit}, aktif proje ${p.activeProjectCount}.`;
-      action = "Yeni proje girişi durdurulmalı; limit, istisna ve komite onayı kontrol edilmelidir.";
-      impact = "Limit aşımı yeni proje girişinde uyum ve operasyonel risk doğurabilir.";
+      const _r = scenario("limit","exceeded_no_exception", { projectLimit: p.projectLimit, activeProjectCount: p.activeProjectCount });
+      score = _r.score ?? 82;
+      finding = _r.finding || `Müşteri aktif proje adedi limitin üzerinde. Limit ${p.projectLimit}, aktif proje ${p.activeProjectCount}.`;
+      action  = _r.action  || "Yeni proje girişi durdurulmalı; limit, istisna ve komite onayı kontrol edilmelidir.";
+      impact  = _r.impact  || "Limit aşımı yeni proje girişinde uyum ve operasyonel risk doğurabilir.";
     } else if(exceeded && exceptionOk && !exceptionDocOk){
-      score = 58; finding = "Limit aşımı var; istisna/komite onayı işaretlenmiş ancak dayanak belge belirtilmemiş.";
-      action = "Onay kapsamı ve geçerlilik süresi belgeyle doğrulanmalıdır."; impact = "Dayanak eksikliği varsa bulguya dönüşebilir.";
+      const _r = scenario("limit","exceeded_exception_no_doc");
+      score = _r.score ?? 58;
+      finding = _r.finding || "Limit aşımı var; istisna/komite onayı işaretlenmiş ancak dayanak belge belirtilmemiş.";
+      action  = _r.action  || "Onay kapsamı ve geçerlilik süresi belgeyle doğrulanmalıdır.";
+      impact  = _r.impact  || "Dayanak eksikliği varsa bulguya dönüşebilir.";
     } else if(exceeded && exceptionDocOk){
-      score = 42; finding = "Limit aşımı var; ancak istisna/komite onayı ve dayanak bilgisi bulunuyor.";
-      action = "Onay kapsamı rapora eklenmeli ve iz kayıtları korunmalıdır."; impact = "Dokümantasyon tam ise risk düşer.";
-    } else { score = 14; finding = "Proje adedi tanımlı limit içinde."; action = "Standart izleme yeterli."; }
+      const _r = scenario("limit","exceeded_exception_with_doc");
+      score = _r.score ?? 42;
+      finding = _r.finding || "Limit aşımı var; ancak istisna/komite onayı ve dayanak bilgisi bulunuyor.";
+      action  = _r.action  || "Onay kapsamı rapora eklenmeli ve iz kayıtları korunmalıdır.";
+      impact  = _r.impact  || "Dokümantasyon tam ise risk düşer.";
+    } else {
+      const _r = scenario("limit","compliant");
+      score = _r.score ?? 14;
+      finding = _r.finding || "Proje adedi tanımlı limit içinde.";
+      action  = _r.action  || "Standart izleme yeterli.";
+      impact  = _r.impact  || "Bulgu riski düşük.";
+    }
   }
 
   if(p.dataIssues.length){
     score += Math.min(18, p.dataIssues.length * 6);
   }
   score = Math.min(100, Math.round(score));
+  const _sev = (RULES && RULES.severity) || { criticalScoreAbove: 90, highScoreAbove: 70, mediumScoreAbove: 40 };
   level = "Düşük";
-  if(score >= 90) level = "Kritik";
-  else if(score >= 70) level = "Yüksek";
-  else if(score >= 40) level = "Orta";
+  if(score >= _sev.criticalScoreAbove) level = "Kritik";
+  else if(score >= _sev.highScoreAbove) level = "Yüksek";
+  else if(score >= _sev.mediumScoreAbove) level = "Orta";
   const probability = Math.min(95, Math.max(5, Math.round(score * 0.88 + (p.dataIssues.length ? 6 : 0))));
   return {...p, score, level, finding, action, impact, details, potentialImpact, probableFinding: probableFindingByType(p), findingProbability: probability, decision: actionDecision({score})};
 }

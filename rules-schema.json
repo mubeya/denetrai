@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DenetrAI Rules",
+  "type": "object",
+  "required": ["version", "severity", "controls"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "string", "description": "ISO timestamp of last generation" },
+    "source": { "type": "string", "description": "Hangi dosyalardan üretildi" },
+    "severity": {
+      "type": "object",
+      "required": ["criticalScoreAbove", "highScoreAbove", "mediumScoreAbove"],
+      "additionalProperties": false,
+      "properties": {
+        "criticalScoreAbove": { "type": "number", "minimum": 0, "maximum": 100 },
+        "highScoreAbove":     { "type": "number", "minimum": 0, "maximum": 100 },
+        "mediumScoreAbove":   { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "globalContext": { "type": "string" },
+    "controls": {
+      "type": "object",
+      "required": ["advance", "penalty", "seller", "limit"],
+      "additionalProperties": false,
+      "properties": {
+        "advance": { "$ref": "#/definitions/control" },
+        "penalty": { "$ref": "#/definitions/control" },
+        "seller":  { "$ref": "#/definitions/control" },
+        "limit":   { "$ref": "#/definitions/control" }
+      }
+    }
+  },
+  "definitions": {
+    "control": {
+      "type": "object",
+      "required": ["label", "params", "scenarios"],
+      "additionalProperties": true,
+      "properties": {
+        "label": { "type": "string" },
+        "context": { "type": "string", "description": "RAG için açıklayıcı serbest metin" },
+        "params": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "percent":         { "type": "number" },
+            "maxDay":          { "type": "number" },
+            "adjustWeekend":   { "type": "boolean" },
+            "exceptionPolicy": { "type": "string", "enum": ["strict", "lower"] }
+          }
+        },
+        "scenarios": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "score":             { "type": "number", "minimum": 0, "maximum": 100 },
+              "scoreIfWithinMax":  { "type": "number", "minimum": 0, "maximum": 100 },
+              "scoreIfLargeDiff":  { "type": "number", "minimum": 0, "maximum": 100 },
+              "scoreStrict":       { "type": "number", "minimum": 0, "maximum": 100 },
+              "scoreLower":        { "type": "number", "minimum": 0, "maximum": 100 },
+              "finding":           { "type": "string" },
+              "action":            { "type": "string" },
+              "impact":            { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
