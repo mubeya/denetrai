@@ -348,9 +348,10 @@ function schedule(filePath) {
 }
 
 chokidar
-  .watch(path.join(DOCS_DIR, "*.docx"), { ignoreInitial: true, awaitWriteFinish: { stabilityThreshold: 1500, pollInterval: 300 } })
-  .on("add", (p) => { console.log(`[+] ${path.basename(p)}`); schedule(p); })
-  .on("change", (p) => { console.log(`[~] ${path.basename(p)}`); schedule(p); })
-  .on("error", (e) => console.error(`[watcher hata] ${e.message}`));
+  .watch(DOCS_DIR, { ignoreInitial: true, depth: 0, awaitWriteFinish: { stabilityThreshold: 1500, pollInterval: 300 } })
+  .on("add", (p) => { if (p.toLowerCase().endsWith(".docx") && !path.basename(p).startsWith("~$")) { console.log(`[+] ${path.basename(p)}`); schedule(p); } })
+  .on("change", (p) => { if (p.toLowerCase().endsWith(".docx") && !path.basename(p).startsWith("~$")) { console.log(`[~] ${path.basename(p)}`); schedule(p); } })
+  .on("error", (e) => console.error(`[watcher hata] ${e.message}`))
+  .on("ready", () => console.log(`(watcher hazır — ${DOCS_DIR} izleniyor)`));
 
 process.on("SIGINT", () => { console.log("\nKapanıyor..."); process.exit(0); });
