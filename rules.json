@@ -1,6 +1,6 @@
 {
-  "version": "2025-01-01T00:00:00.000Z",
-  "source": "seed (hardcoded'dan dönüştürüldü)",
+  "version": "2026-05-20T17:31:35.690Z",
+  "source": "agent: proje-limit.docx",
   "severity": {
     "criticalScoreAbove": 90,
     "highScoreAbove": 70,
@@ -10,43 +10,42 @@
   "controls": {
     "advance": {
       "label": "Avans Kapama",
-      "context": "Avans kapama tarihi vade gün × yüzde formülüyle hesaplanır. Azami gün üst sınırı uygulanır. Hafta sonuna denk gelirse ilk iş gününe çekilir. İstisna kaydı varsa puanlama yumuşar.",
+      "context": "Avans kapama denetimi, proje finansmanı için verilen avansın doğru süre içinde kapatılıp kapatılmadığını denetler. Doğru kapama günü = vade gün × kural yüzdesi (GÜNCELLENDİ: varsayılan %35), azami 100 gün üst sınırı uygulanır. Hafta sonuna denk gelen kapama tarihleri Pazartesi'ye çekilir. İstisna kayıtları komite onayı ile geçici olarak tolere edilebilir; ancak istisna dayanağı (onay belgesi) ibraz edilmelidir.",
       "params": {
-        "percent": 30,
-        "maxDay": 90,
+        "percent": 50,
+        "maxDay": 120,
         "adjustWeekend": true,
         "exceptionPolicy": "lower"
       },
       "scenarios": {
         "exceeded_no_exception": {
-          "score": 80,
-          "scoreIfBeyondMaxDay": 94,
-          "finding": "Mevcut kapama, doğru kapama sınırını aşıyor. Doğru kapama: ${correctClose}, mevcut kayıt: ${currentClose}.",
+          "score": 85,
+          "finding": "Kapama tarihi sınırı aşmış ve istisna kaydı bulunamadı.",
           "action": "Kapama tarihi ${correctClose} olacak şekilde düzeltilmeli veya geçerli istisna kaydı aranmalıdır.",
           "impact": "Denetim öncesi düzeltilmezse BDDK / iç prosedür bulgusuna dönüşebilir."
         },
         "exceeded_exception_no_doc": {
-          "scoreStrict": 76,
-          "scoreLower": 56,
+          "scoreStrict": 78,
+          "scoreLower": 58,
           "finding": "Kapama tarihi normal kurala göre sınırı aşıyor; istisna kaydı var ancak dayanak/onay belgesi görünmüyor.",
           "action": "İstisna dayanağı, komite/onay kaydı ve sistem izleri tamamlanmalıdır.",
           "impact": "İstisna dayanağı yoksa bulgu riski devam eder."
         },
         "exceeded_exception_with_doc": {
-          "score": 42,
-          "finding": "Kapama tarihi normal kurala göre sınırı aşıyor; istisna ve dayanak kaydı bulundu. Doğru tarih: ${correctCloseDate}.",
+          "score": 44,
+          "finding": "Kapama tarihi normal kurala göre sınırı aşıyor; istisna ve dayanak kaydı bulundu.",
           "action": "İstisna dayanağı rapora eklenerek iz kayıtları korunmalıdır.",
           "impact": "Dokümantasyon tam ise bulguya dönüşme olasılığı düşer."
         },
         "missing_start_date": {
-          "score": 38,
+          "score": 40,
           "finding": "Finansman tarihi olmadığı için doğru kapama tarihi hesaplanamadı; sadece doğru kapama günü hesaplanabilir.",
           "action": "Excel dosyasına Finansman Tarihi alanı eklenmelidir.",
           "impact": "Eksik veri nedeniyle otomatik kontrol güvenilirliği düşer."
         },
         "compliant": {
-          "score": 16,
-          "finding": "Avans kapama tarihi kural sınırları içinde. Doğru kapama tarihi: ${correctCloseDate}.",
+          "score": 18,
+          "finding": "Avans kapama tarihi kural sınırları içinde.",
           "action": "Standart izleme ve kayıt bütünlüğü korunmalıdır.",
           "impact": "Bulgu riski düşük."
         }
@@ -54,14 +53,19 @@
     },
     "penalty": {
       "label": "Ceza Havuzu",
-      "context": "Ceza havuzu matrahı = Proje tutarı − Uygun gelen belge tutarı. Bu hesap ile sistemde kayıtlı ceza matrahı karşılaştırılır. Fark proje tutarının %5'inden büyükse risk yüksek.",
+      "context": "Ceza havuzu, projenin uygun gelmeyen belge kısmı üzerinden hesaplanan cezai matrahtır. Beklenen matrah = Proje Tutarı − Uygun Gelen Belge Tutarı. Sistemde kayıtlı matrah ile karşılaştırılır.",
       "params": {
         "largeDiffRatio": 0.05
       },
       "scenarios": {
-        "mismatch": {
+        "mismatch_large": {
+          "score": 86,
+          "finding": "Fark proje tutarının %5'inden büyükse.",
+          "action": "Uygun belge tutarı ve cezaya konu proje tutarı yeniden hesaplanmalı.",
+          "impact": "Yanlış hesaplama kurum zararı, hatalı gelir kaydı veya teftiş bulgusu doğurabilir."
+        },
+        "mismatch_small": {
           "score": 65,
-          "scoreIfLargeDiff": 86,
           "finding": "Ceza havuzu matrahı ile hesaplanan tutar arasında ${diff} fark var.",
           "action": "Uygun belge tutarı ve cezaya konu proje tutarı yeniden hesaplanmalı; kayıt düzeltilmelidir.",
           "impact": "Yanlış hesaplama kurum zararı, hatalı gelir kaydı veya teftiş bulgusu doğurabilir."
@@ -76,27 +80,26 @@
     },
     "seller": {
       "label": "Çoklu Satıcı",
-      "context": "Satıcıya yapılan ödeme tutarı ile satıcı fatura/belge tutarı eşleşmelidir. Belge fazlaysa ceza havuzu yanlış hesaplanır; ödeme fazlaysa eksik belge riski.",
+      "context": "Bir projede birden fazla satıcı varsa, satıcı bazında ödeme tutarı ile fatura/belge tutarı eşleşmelidir. Fark işareti riskin yönünü belirler: belge fazlaysa ceza havuzu yanlış hesaplanır, ödeme fazlaysa eksik belge riski oluşur.",
       "params": {
         "largeDiffRatio": 0.15
       },
       "scenarios": {
         "excess_invoice": {
           "score": 62,
-          "scoreIfLargeDiff": 84,
-          "finding": "Satıcıya yapılan ödeme tutarından fazla belge/fatura girişi tespit edildi. Fark: ${diff}.",
-          "action": "Satıcı bazlı ödeme-belge eşleşmesi kontrol edilmeli; fazla belge gelen belge tutarına dahil edilmemelidir.",
-          "impact": "Fazla belge girişi ceza havuzu hesabını ve uygun belge tutarını hatalı etkileyebilir."
+          "finding": "Belge tutarı ödemenin %15'inden çok fazlaysa fark tespit edildi.",
+          "action": "Fazla belge gelen belge tutarına dahil edilmemelidir.",
+          "impact": "Fazla belge girişi ceza havuzu hesabını hatalı etkileyebilir."
         },
         "missing_invoice": {
           "score": 52,
-          "finding": "Satıcı ödeme tutarı belge tutarından yüksek. Eksik belge riski: ${absDiff}.",
-          "action": "Eksik belge tamamlatılmalı veya cezaya konu tutar yeniden hesaplanmalıdır.",
+          "finding": "Ödeme belgeden yüksekse eksik belge riski tespit edildi.",
+          "action": "Eksik belge tamamlatılmalı veya ceza matrahı yeniden hesaplanmalıdır.",
           "impact": "Eksik belge kapama/ceza havuzu sürecinde bulgu riski doğurabilir."
         },
         "compliant": {
           "score": 14,
-          "finding": "Satıcı ödeme ve belge tutarı uyumlu.",
+          "finding": "Ödeme ve belge tutarı uyumlu.",
           "action": "Standart izleme yeterli.",
           "impact": "Bulgu riski düşük."
         }
@@ -104,13 +107,13 @@
     },
     "limit": {
       "label": "Proje Limit",
-      "context": "Müşterinin aynı anda taşıyabileceği aktif proje adedi sözleşmeyle veya iç kredi politikasıyla sınırlandırılmıştır. Aşım istisna ve komite onayı ile geçici tolere edilebilir.",
+      "context": "Müşterinin aynı anda taşıyabileceği aktif proje adedi banka kredi politikası veya sözleşme tarafından sınırlandırılır. Aşım, istisna ve komite onayı ile geçici tolere edilebilir; dayanak belge ibraz edilmelidir.",
       "params": {},
       "scenarios": {
         "exceeded_no_exception": {
           "score": 82,
           "finding": "Müşteri aktif proje adedi limitin üzerinde. Limit ${projectLimit}, aktif proje ${activeProjectCount}.",
-          "action": "Yeni proje girişi durdurulmalı; limit, istisna ve komite onayı kontrol edilmelidir.",
+          "action": "Yeni proje girişi durdurulmalı; limit, istisna ve komite onayı kontrol edilmeli.",
           "impact": "Limit aşımı yeni proje girişinde uyum ve operasyonel risk doğurabilir."
         },
         "exceeded_exception_no_doc": {
@@ -122,7 +125,7 @@
         "exceeded_exception_with_doc": {
           "score": 42,
           "finding": "Limit aşımı var; ancak istisna/komite onayı ve dayanak bilgisi bulunuyor.",
-          "action": "Onay kapsamı rapora eklenmeli ve iz kayıtları korunmalıdır.",
+          "action": "Onay kapsamı rapora eklenmeli, iz kayıtları korunmalıdır.",
           "impact": "Dokümantasyon tam ise risk düşer."
         },
         "compliant": {
