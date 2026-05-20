@@ -1,5 +1,5 @@
 {
-  "version": "2026-05-20T17:39:46.752Z",
+  "version": "2026-05-20T17:47:15.186Z",
   "source": "agent: proje-limit.docx",
   "severity": {
     "criticalScoreAbove": 90,
@@ -13,7 +13,7 @@
       "context": "Avans kapama denetimi, proje finansmanı için verilen avansın doğru süre içinde kapatılıp kapatılmadığını denetler. Doğru kapama günü = vade gün × kural yüzdesi (GÜNCELLENDİ: varsayılan %35), azami 100 gün üst sınırı uygulanır. Hafta sonuna denk gelen kapama tarihleri Pazartesi'ye çekilir. İstisna kayıtları komite onayı ile geçici olarak tolere edilebilir; ancak istisna dayanağı (onay belgesi) ibraz edilmelidir.",
       "params": {
         "percent": 50,
-        "maxDay": 120,
+        "maxDay": 130,
         "adjustWeekend": true,
         "exceptionPolicy": "lower"
       },
@@ -67,7 +67,7 @@
         "mismatch_small": {
           "score": 65,
           "finding": "Fark daha küçükse.",
-          "action": "Uygun belge tutarı ve cezaya konu proje tutarı yeniden hesaplanmalı; kayıt düzeltilmelidir.",
+          "action": "Uygun belge tutarı ve cezaya konu proje tutarı yeniden hesaplanmalı.",
           "impact": "Yanlış hesaplama kurum zararı, hatalı gelir kaydı veya teftiş bulgusu doğurabilir."
         },
         "compliant": {
