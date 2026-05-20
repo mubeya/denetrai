@@ -76,3 +76,33 @@ Tek gereksinim:
 
 Bu sayede denetÃ§i Word'Ã¼ dÃ¼zenler, repo'ya pushlar (GitHub Desktop / Web UI), kurallarÄ±
 gÃ¼ncellemek iÃ§in lokalde hiÃ§bir ÅŸey Ã§alÄ±ÅŸtÄ±rmasÄ± gerekmez.
+
+=========================
+ONEDRIVE KÖPRÜSÜ (scripts/onedrive-bridge.mjs)
+=========================
+
+Word'ü OneDrive klasöründe düzenleyince otomatik olarak repo'ya commit+push yapar.
+Push GitHub Actions'ý tetikler, LLM agent rules.json'u günceller, Netlify deploy eder.
+
+Kurulum:
+  1. OneDrive içinde bir klasör oluþtur:
+       C:\Users\<kullanici>\OneDrive\DenetrAI-Kurallar
+  2. Mevcut .docx dosyalarýný oraya kopyala (rules-docs/ altýndakileri).
+  3. .env.local içine ekle:
+       ONEDRIVE_RULES_DIR=C:\Users\<kullanici>\OneDrive\DenetrAI-Kurallar
+  4. Baþlat:
+       npm run onedrive-bridge
+  Terminali açýk tut. Word'ü kaydettiðinde 4 sn içinde otomatik push gider.
+
+Komutlar:
+  npm run onedrive-bridge          # sürekli izle (CTRL+C ile durur)
+  npm run onedrive-bridge:once     # mevcut dosyalarý bir kez senkronla, çýk
+  node scripts/onedrive-bridge.mjs --dry   # sadece logla, dosya yazma
+
+Windows'ta otomatik baþlatma (opsiyonel):
+  Win+R -> shell:startup -> klasöre bir .bat kýsayolu koy:
+    cd /d C:\Users\efirat\Desktop\Denetrai04 && npm run onedrive-bridge
+  (veya Görev Zamanlayýcý'ya 'oturum açýlýþýnda' tetikleyici ile ekle)
+
+Avantaj: Word'ü kaydettin -> 2 dk sonra canlý site güncel. Tek manuel adým Word düzenlemek.
+

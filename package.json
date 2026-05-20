@@ -10,7 +10,9 @@
     "dev": "node dev-server.mjs",
     "rules-agent": "node rule-agent.mjs",
     "rules-agent:auto": "node rule-agent.mjs --auto-commit",
-    "init-docs": "node scripts/init-docs.mjs"
+    "init-docs": "node scripts/init-docs.mjs",
+    "onedrive-bridge": "node scripts/onedrive-bridge.mjs",
+    "onedrive-bridge:once": "node scripts/onedrive-bridge.mjs --once"
   },
   "dependencies": {
     "ajv": "^8.17.1",
