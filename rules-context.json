@@ -1,17 +1,17 @@
 {
-  "version": "2026-05-20T17:31:35.690Z",
+  "version": "2026-05-20T17:39:46.752Z",
   "chunks": [
     {
       "control": "advance",
       "source": "avans-kapama.docx",
-      "title": "Açıklama",
-      "text": "Avans kapama denetimi, proje finansmanı için verilen avansın doğru süre içinde kapatılıp kapatılmadığını denetler. Doğru kapama günü = vade gün × kural yüzdesi (GÜNCELLENDİ: varsayılan %35), azami 100 gün üst sınırı uygulanır. Hafta sonuna denk gelen kapama tarihleri Pazartesi'ye çekilir. İstisna kayıtları komite onayı ile geçici olarak tolere edilebilir; ancak istisna dayanağı (onay belgesi) ibraz edilmelidir."
+      "title": "Avans Kapama Kontrolü",
+      "text": "Avans kapama denetimi, proje finansmanı için verilen avansın doğru süre içinde kapatılıp kapatılmadığını denetler. Doğru kapama günü = vade gün × kural yüzdesi (GÜNCELLENDİ: varsayılan %35), azami 100 gün üst sınırı uygulanır."
     },
     {
       "control": "advance",
       "source": "avans-kapama.docx",
       "title": "Parametreler",
-      "text": "Kural yüzdesi: %50, Azami kapama günü: 120 gün, Hafta sonu düzeltmesi: açık, İstisna politikası: lower (yumuşak)"
+      "text": "Kural yüzdesi: %50, Azami kapama günü: 120 gün, Hafta sonu düzeltmesi: açık, İstisna politikası: lower (yumuşak)."
     },
     {
       "control": "advance",
@@ -23,13 +23,7 @@
       "control": "penalty",
       "source": "ceza-havuzu.docx",
       "title": "Ceza Havuzu Kontrolü",
-      "text": "Ceza havuzu, projenin uygun gelmeyen belge kısmı üzerinden hesaplanan cezai matrahtır."
-    },
-    {
-      "control": "penalty",
-      "source": "ceza-havuzu.docx",
-      "title": "Beklenen Matrah",
-      "text": "Beklenen matrah = Proje Tutarı − Uygun Gelen Belge Tutarı. Sistemde kayıtlı matrah ile karşılaştırılır."
+      "text": "Ceza havuzu, projenin uygun gelmeyen belge kısmı üzerinden hesaplanan cezai matrahtır. Beklenen matrah = Proje Tutarı − Uygun Gelen Belge Tutarı. Sistemde kayıtlı matrah ile karşılaştırılır."
     },
     {
       "control": "penalty",
@@ -38,22 +32,28 @@
       "text": "Büyük fark eşiği: proje tutarının %5'i"
     },
     {
+      "control": "penalty",
+      "source": "ceza-havuzu.docx",
+      "title": "Senaryolar",
+      "text": "Uyumsuzluk - büyük fark: Fark proje tutarının %5'inden büyükse skor 86. Uyumsuzluk - küçük fark: Fark daha küçükse skor 65. Uygun belge tutarı ve cezaya konu proje tutarı yeniden hesaplanmalı. Uyumlu: Skor 16. Belge ayrıştırma ve uygunluk kayıtları izlenmeye devam edilmeli."
+    },
+    {
       "control": "seller",
       "source": "coklu-satici.docx",
       "title": "Çoklu Satıcı Kontrolü",
-      "text": "Bir projede birden fazla satıcı varsa, satıcı bazında ödeme tutarı ile fatura/belge tutarı eşleşmelidir."
+      "text": "Bir projede birden fazla satıcı varsa, satıcı bazında ödeme tutarı ile fatura/belge tutarı eşleşmelidir. Fark işareti riskin yönünü belirler: belge fazlaysa ceza havuzu yanlış hesaplanır, ödeme fazlaysa eksik belge riski oluşur."
     },
     {
       "control": "seller",
       "source": "coklu-satici.docx",
-      "title": "Fark İşareti",
-      "text": "Fark işareti riskin yönünü belirler: belge fazlaysa ceza havuzu yanlış hesaplanır, ödeme fazlaysa eksik belge riski oluşur."
+      "title": "Parametreler",
+      "text": "Büyük fark eşiği: ödeme tutarının %15'i"
     },
     {
       "control": "seller",
       "source": "coklu-satici.docx",
-      "title": "Parametreler ve Senaryolar",
-      "text": "Büyük fark eşiği: ödeme tutarının %15'i. Fazla belge ve eksik belge senaryoları için skorlar ve eylemler belirtilmiştir."
+      "title": "Senaryolar",
+      "text": "Fazla belge - büyük fark: Belge tutarı ödemenin %15'inden çok fazlaysa skor 84. Fazla belge - küçük fark: Daha küçük fazlalıkta skor 62. Eksik belge: Ödeme belgeden yüksekse skor 52. Uyumlu: Skor 14."
     },
     {
       "control": "limit",
@@ -64,7 +64,7 @@
     {
       "control": "limit",
       "source": "proje-limit.docx",
-      "title": "Aşım Durumu",
+      "title": "Aşım Durumları",
       "text": "Aşım, istisna ve komite onayı ile geçici tolere edilebilir; dayanak belge ibraz edilmelidir."
     },
     {

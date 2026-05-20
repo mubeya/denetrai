@@ -1,5 +1,5 @@
 {
-  "version": "2026-05-20T17:31:35.690Z",
+  "version": "2026-05-20T17:39:46.752Z",
   "source": "agent: proje-limit.docx",
   "severity": {
     "criticalScoreAbove": 90,
@@ -66,13 +66,13 @@
         },
         "mismatch_small": {
           "score": 65,
-          "finding": "Ceza havuzu matrahı ile hesaplanan tutar arasında ${diff} fark var.",
+          "finding": "Fark daha küçükse.",
           "action": "Uygun belge tutarı ve cezaya konu proje tutarı yeniden hesaplanmalı; kayıt düzeltilmelidir.",
           "impact": "Yanlış hesaplama kurum zararı, hatalı gelir kaydı veya teftiş bulgusu doğurabilir."
         },
         "compliant": {
           "score": 16,
-          "finding": "Ceza havuzu matrahı beklenen hesapla uyumlu.",
+          "finding": "Belge ayrıştırma ve uygunluk kayıtları izlenmeye devam edilmeli.",
           "action": "Belge ayrıştırma ve uygunluk kayıtları izlenmeye devam edilmelidir.",
           "impact": "Bulgu riski düşük."
         }
@@ -86,7 +86,7 @@
       },
       "scenarios": {
         "excess_invoice": {
-          "score": 62,
+          "score": 84,
           "finding": "Belge tutarı ödemenin %15'inden çok fazlaysa fark tespit edildi.",
           "action": "Fazla belge gelen belge tutarına dahil edilmemelidir.",
           "impact": "Fazla belge girişi ceza havuzu hesabını hatalı etkileyebilir."
