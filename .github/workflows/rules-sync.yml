@@ -9,6 +9,11 @@ on:
       - 'rules-schema.json'
   workflow_dispatch:
 
+# Aynı anda birden fazla rules-sync koşmasın (race condition önleme)
+concurrency:
+  group: rules-sync
+  cancel-in-progress: false
+
 jobs:
   sync-rules:
     runs-on: ubuntu-latest
@@ -47,11 +52,18 @@ jobs:
             echo "rules.json değişmedi."
           fi
 
-      - name: Commit & push
+      - name: Commit & push (with rebase)
         if: steps.diff.outputs.changed == 'true'
         run: |
           git config user.name "denetrai-rules-bot"
           git config user.email "actions@users.noreply.github.com"
           git add rules.json rules-context.json
           git commit -m "chore(rules): auto-sync from rules-docs (CI)"
-          git push
+          # Origin ilerlemiş olabilir — rebase et
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            echo "Push attempt $i failed, retrying..."
+            sleep 2
+          done
+          echo "Push 3 deneme sonrası başarısız."
+          exit 1
