@@ -42,6 +42,9 @@ Agent'ı çalıştır (terminal açık kalmalı):
   npm run rules-agent              # değişiklikleri yakalar, onay sorar, dosyaya yazar
   npm run rules-agent:auto         # ek olarak otomatik git commit+push (Netlify auto-deploy)
 
+CI / tek seferlik tarama (GitHub Actions kullanır):
+  node rule-agent.mjs --once --ci  # tüm docx'leri tara, onay sorma, sadece yaz
+
 Akış:
   1. rules-docs/avans-kapama.docx içine yeni mevzuat yazılır (Word ile düzenle, kaydet)
   2. Agent değişikliği yakalar -> OpenAI'a JSON schema ile structured extraction yaptırır
@@ -56,3 +59,20 @@ metinlerini bu dosyadan okur. Chat asistanı (chat.mjs) rules-context.json'dan i
 parçalarını system prompt'a enjekte eder (RAG).
 
 Şema değişmediği sürece (rules-schema.json), denetçi koda dokunmadan kuralları güncelleyebilir.
+
+=========================
+BULUT OTOMASYON (GitHub Actions)
+=========================
+
+.github/workflows/rules-sync.yml bir push olduğunda otomatik çalışır:
+  - rules-docs/*.docx değişirse OpenAI'a gider
+  - rules.json + rules-context.json üretir
+  - bot olarak commit + push -> Netlify auto-deploy
+
+Tek gereksinim:
+  GitHub repo > Settings > Secrets and variables > Actions > New repository secret
+    OPENAI_API_KEY = sk-...
+    (opsiyonel) OPENAI_MODEL = gpt-4o-mini
+
+Bu sayede denetçi Word'ü düzenler, repo'ya pushlar (GitHub Desktop / Web UI), kuralları
+güncellemek için lokalde hiçbir şey çalıştırması gerekmez.

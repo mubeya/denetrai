@@ -39,6 +39,8 @@ const ENV_PATH = path.join(ROOT, ".env.local");
 
 const ARGS = new Set(process.argv.slice(2));
 const AUTO_COMMIT = ARGS.has("--auto-commit");
+const CI_MODE = ARGS.has("--ci") || process.env.CI === "true";   // onay sormaz, hepsini uygular
+const ONCE = ARGS.has("--once");                                  // tek seferlik tarama, watcher başlatmaz
 
 // ---- .env.local ----
 if (fs.existsSync(ENV_PATH)) {
@@ -303,7 +305,7 @@ async function processFile(filePath) {
   const newRulesText = JSON.stringify(newRules.controls[control], null, 2);
   showDiff(`rules.controls.${control}`, oldRulesText, newRulesText);
 
-  const ans = await ask(`Bu değişiklikleri uygulamak istiyor musunuz? [y/N]: `);
+  const ans = CI_MODE ? "y" : await ask(`Bu değişiklikleri uygulamak istiyor musunuz? [y/N]: `);
   if (ans !== "y" && ans !== "yes" && ans !== "e" && ans !== "evet") {
     console.log("İptal edildi. Dosyalar değişmedi.");
     return;
@@ -334,7 +336,19 @@ console.log("DenetrAI Rules Agent başladı.");
 console.log(`  İzlenen klasör: ${DOCS_DIR}`);
 console.log(`  Model: ${OPENAI_MODEL}`);
 console.log(`  Auto-commit: ${AUTO_COMMIT ? "AÇIK" : "kapalı"}`);
+console.log(`  CI mode: ${CI_MODE ? "AÇIK (onay sorulmayacak)" : "kapalı"}`);
 console.log(`  CTRL+C ile durdurun.\n`);
+
+// ---- ONCE modu: tek seferlik tarama, hemen çıkar ----
+if (ONCE) {
+  const files = fs.readdirSync(DOCS_DIR).filter(f => f.toLowerCase().endsWith(".docx") && !f.startsWith("~$"));
+  console.log(`[once] ${files.length} dosya işlenecek.`);
+  for (const f of files) {
+    try { await processFile(path.join(DOCS_DIR, f)); }
+    catch (e) { console.error(`[hata] ${f}: ${e.message}`); }
+  }
+  process.exit(0);
+}
 
 // Debounce: aynı dosya 2sn içinde tekrar tetiklenirse birleştir
 const pending = new Map();
