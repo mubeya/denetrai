@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T04:14:59.939Z",
+  "generatedAt": "2026-05-22T08:26:26.410Z",
   "rulesVersion": "2026-05-20T18:16:08.866Z",
   "source": "projects.xlsx",
   "summary": {
@@ -246,7 +246,7 @@
         }
       },
       "ai": {
-        "ozet": "Doğa Enerji Ltd. projesinde kapama tarihi normal kurala göre aşılmıştır ve istisna kaydı mevcut ancak gerekli belgeler eksiktir. Limit aşımı söz konusudur.",
+        "ozet": "Doğa Enerji Ltd. projesinde kapama tarihi normal kurala göre aşılmış, ancak istisna kaydı mevcut. Limit aşımı ve eksik belgeler riski bulunmaktadır.",
         "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile iletişime geçin."
       }
     },
@@ -326,7 +326,7 @@
         }
       },
       "ai": {
-        "ozet": "Yıldız Üretim A.Ş. projesinde kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Ancak, ödeme belgeden yüksek olduğu için eksik belge riski mevcuttur.",
+        "ozet": "Yıldız Üretim A.Ş. projesinde kapama tarihi aşılmış ve istisna kaydı yok. Ancak, ödeme belgeden yüksek olduğu için eksik belge riski mevcuttur.",
         "aksiyon": "Eksik belgelerin tamamlanması için gerekli önlemleri alın."
       }
     },
