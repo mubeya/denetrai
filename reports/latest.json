@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-30T04:00:26.569Z",
+  "generatedAt": "2026-05-30T07:43:57.167Z",
   "rulesVersion": "2026-05-20T18:16:08.866Z",
   "source": "projects.xlsx",
   "summary": {
@@ -86,8 +86,8 @@
         }
       },
       "ai": {
-        "ozet": "Mavi Liman Tic. projesinde kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Müşteri, aktif proje adedi ile limitin üzerinde bulunmaktadır.",
-        "aksiyon": "Müşteri ile iletişime geçilerek kapama tarihinin güncellenmesi ve eksik belgelerin tamamlanması sağlanmalıdır."
+        "ozet": "Mavi Liman Tic. projesinde kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Müşterinin aktif proje adedi limitin üzerinde olduğu tespit edilmiştir.",
+        "aksiyon": "Kapama tarihine uyulması ve eksik belgelerin tamamlanması için müşteri ile iletişime geçilmelidir."
       }
     },
     {
@@ -167,7 +167,7 @@
       },
       "ai": {
         "ozet": "Anadolu Gıda San. projesinde kapama tarihi aşılmış ve istisna kaydı yoktur. Aktif proje adedi limitin üzerindedir.",
-        "aksiyon": "Kapama tarihinin güncellenmesi ve gerekli belgelerin tamamlanması için müşteri ile görüşülmelidir."
+        "aksiyon": "Müşteri ile limit aşımı ve kapama tarihine uyum konusunda görüşülmelidir."
       }
     },
     {
@@ -246,8 +246,8 @@
         }
       },
       "ai": {
-        "ozet": "Doğa Enerji Ltd. projesinde kapama tarihi normal kurala göre aşılmıştır. Limit aşımı mevcut olup, gerekli belgeler eksiktir.",
-        "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile acil olarak iletişime geçilmelidir."
+        "ozet": "Doğa Enerji Ltd. projesinde kapama tarihi normal kurala göre aşılmıştır; istisna kaydı mevcut ancak gerekli belgeler eksiktir. Limit aşımı tespit edilmiştir.",
+        "aksiyon": "Eksik belgelerin tamamlanması ve limit aşımının çözülmesi için acil önlem alınmalıdır."
       }
     },
     {
@@ -327,7 +327,7 @@
       },
       "ai": {
         "ozet": "Yıldız Üretim A.Ş. projesinde kapama tarihi aşılmış ve istisna kaydı yoktur. Ancak, ödeme belgeden yüksek olduğu için eksik belge riski bulunmaktadır.",
-        "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile iletişime geçilmelidir."
+        "aksiyon": "Eksik belgelerin tamamlanması ve kapama tarihine uyulması için müşteri ile iletişim kurulmalıdır."
       }
     },
     {
