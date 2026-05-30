@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-30T12:07:13.153Z",
+  "generatedAt": "2026-05-30T14:43:22.632Z",
   "rulesVersion": "2026-05-20T18:16:08.866Z",
   "source": "projects.xlsx",
   "summary": {
@@ -86,8 +86,8 @@
         }
       },
       "ai": {
-        "ozet": "Mavi Liman Tic. projesinde kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Müşterinin aktif proje adedi limitin üzerinde olup, eksik belge riski mevcuttur.",
-        "aksiyon": "Müşterinin aktif projelerini gözden geçirerek, limit aşımını düzeltmek için gerekli adımları atın."
+        "ozet": "Kapama tarihi aşılmış ve istisna kaydı yok. Müşteri aktif proje adedi limitin üzerinde.",
+        "aksiyon": "Müşteri ile iletişime geçilerek proje kapama tarihleri ve belgeler kontrol edilmelidir."
       }
     },
     {
@@ -166,8 +166,8 @@
         }
       },
       "ai": {
-        "ozet": "Anadolu Gıda San. projesinde kapama tarihi aşılmış ve istisna kaydı yoktur. Müşterinin aktif proje adedi limitin üzerindedir.",
-        "aksiyon": "Müşterinin proje limitlerini kontrol ederek, aşımı önlemek için gerekli tedbirleri alın."
+        "ozet": "Kapama tarihi aşılmış ve istisna kaydı yok. Aktif proje adedi limitin üzerinde.",
+        "aksiyon": "Müşteri ile görüşülerek limit aşımının nedenleri ve çözüm yolları belirlenmelidir."
       }
     },
     {
@@ -246,8 +246,8 @@
         }
       },
       "ai": {
-        "ozet": "Doğa Enerji Ltd. projesinde kapama tarihi normal kurala göre aşılmıştır. Limit aşımı ve eksik belge riski bulunmaktadır.",
-        "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile iletişime geçin ve limit aşımını düzeltin."
+        "ozet": "Kapama tarihi normal kurala göre aşılmış; istisna kaydı var ancak belgeler eksik. Limit aşımı mevcut.",
+        "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile acil iletişime geçilmelidir."
       }
     },
     {
@@ -326,8 +326,8 @@
         }
       },
       "ai": {
-        "ozet": "Yıldız Üretim A.Ş. projesinde kapama tarihi aşılmış ve istisna kaydı yoktur. Ancak, proje adedi tanımlı limit içindedir.",
-        "aksiyon": "Kapama tarihini düzenlemek için gerekli belgeleri talep edin ve süreci hızlandırın."
+        "ozet": "Kapama tarihi aşılmış ve istisna kaydı yok. Proje adedi limit içinde ancak eksik belge riski var.",
+        "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile iletişime geçilmelidir."
       }
     },
     {
