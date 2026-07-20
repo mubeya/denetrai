@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-20T20:26:23.361Z",
+  "generatedAt": "2026-07-20T22:05:52.721Z",
   "rulesVersion": "2026-05-20T18:16:08.866Z",
   "source": "projects.xlsx",
   "summary": {
@@ -87,7 +87,7 @@
       },
       "ai": {
         "ozet": "Mavi Liman Tic. projesinde kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Müşterinin aktif proje adedi limitin üzerinde olduğu tespit edilmiştir.",
-        "aksiyon": "Müşterinin aktif projelerini gözden geçirerek limit aşımını düzeltin."
+        "aksiyon": "Müşteri ile iletişime geçerek proje limitleri ve kapama tarihleri hakkında bilgi verin."
       }
     },
     {
@@ -166,8 +166,8 @@
         }
       },
       "ai": {
-        "ozet": "Anadolu Gıda San. projesinde kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Aktif proje adedi limitin üzerindedir.",
-        "aksiyon": "Limit aşımını önlemek için proje sayısını azaltın."
+        "ozet": "Anadolu Gıda San. projesinde kapama tarihi aşılmış ve istisna kaydı yoktur. Aktif proje adedi limitin üzerindedir.",
+        "aksiyon": "Proje limitlerinin gözden geçirilmesi ve gerekli belgelerin tamamlanması için müşteri ile görüşün."
       }
     },
     {
@@ -246,8 +246,8 @@
         }
       },
       "ai": {
-        "ozet": "Doğa Enerji Ltd. projesinde kapama tarihi normal kurala göre aşılmıştır. Limit aşımı ve eksik belgeler riski bulunmaktadır.",
-        "aksiyon": "Eksik belgeleri tamamlayarak limit aşımını düzeltin."
+        "ozet": "Doğa Enerji Ltd. projesinde kapama tarihi normal kurala göre aşılmıştır. Limit aşımı mevcut ancak dayanak belge eksikliği bulunmaktadır.",
+        "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile acil iletişime geçin."
       }
     },
     {
@@ -326,8 +326,8 @@
         }
       },
       "ai": {
-        "ozet": "Yıldız Üretim A.Ş. projesinde kapama tarihi aşılmış ve eksik belge riski mevcuttur. Ancak proje adedi tanımlı limit içindedir.",
-        "aksiyon": "Eksik belgeleri tamamlayarak riskleri azaltın."
+        "ozet": "Yıldız Üretim A.Ş. projesinde kapama tarihi aşılmış ve istisna kaydı yoktur. Ancak, ödeme belgeden yüksek olduğu için eksik belge riski mevcuttur.",
+        "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile iletişim kurun."
       }
     },
     {
