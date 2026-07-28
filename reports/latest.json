@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-28T19:41:13.060Z",
+  "generatedAt": "2026-07-28T21:13:33.875Z",
   "rulesVersion": "2026-05-20T18:16:08.866Z",
   "source": "projects.xlsx",
   "summary": {
@@ -86,8 +86,8 @@
         }
       },
       "ai": {
-        "ozet": "Mavi Liman Tic. projesinde kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Ayrıca, müşteri aktif proje adedi limitin üzerinde bulunmaktadır.",
-        "aksiyon": "Müşteri ile iletişime geçilerek proje limitleri ve kapama tarihleri hakkında bilgi verilmelidir."
+        "ozet": "Mavi Liman Tic. projesinde kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Müşterinin aktif proje adedi limitin üzerinde olduğu tespit edilmiştir.",
+        "aksiyon": "Kapama tarihinin güncellenmesi ve eksik belgelerin tamamlanması için müşteri ile iletişime geçilmelidir."
       }
     },
     {
@@ -167,7 +167,7 @@
       },
       "ai": {
         "ozet": "Anadolu Gıda San. projesinde kapama tarihi aşılmış ve istisna kaydı yoktur. Aktif proje adedi limitin üzerindedir.",
-        "aksiyon": "Proje limitleri ve kapama tarihleri hakkında müşteri ile görüşülmelidir."
+        "aksiyon": "Müşteri ile limit aşımını görüşmek ve gerekli belgeleri talep etmek için iletişim kurulmalıdır."
       }
     },
     {
@@ -246,8 +246,8 @@
         }
       },
       "ai": {
-        "ozet": "Doğa Enerji Ltd. projesinde kapama tarihi normal kurala göre aşılmış ancak istisna kaydı mevcut değildir. Ayrıca, limit aşımı söz konusudur.",
-        "aksiyon": "İlgili belgelerin tamamlanması için müşteri ile iletişime geçilmelidir."
+        "ozet": "Doğa Enerji Ltd. projesinde kapama tarihi normal kurala göre aşılmıştır; istisna kaydı mevcut ancak onay belgesi yoktur. Limit aşımı tespit edilmiştir.",
+        "aksiyon": "İstisna kaydı için gerekli belgelerin tamamlanması ve onay sürecinin başlatılması gerekmektedir."
       }
     },
     {
@@ -327,7 +327,7 @@
       },
       "ai": {
         "ozet": "Yıldız Üretim A.Ş. projesinde kapama tarihi aşılmış ve eksik belge riski bulunmaktadır. Proje adedi tanımlı limit içindedir.",
-        "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile irtibat kurulmalıdır."
+        "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile iletişime geçilmelidir."
       }
     },
     {
