@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T19:48:04.193Z",
+  "generatedAt": "2026-08-03T21:11:01.817Z",
   "rulesVersion": "2026-05-20T18:16:08.866Z",
   "source": "projects.xlsx",
   "summary": {
@@ -87,7 +87,7 @@
       },
       "ai": {
         "ozet": "Mavi Liman Tic. projesinde kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Müşterinin aktif proje adedi limitin üzerinde olduğu tespit edilmiştir.",
-        "aksiyon": "Müşterinin aktif projelerini gözden geçirerek limit aşımını düzeltmek için gerekli adımları atın."
+        "aksiyon": "Müşterinin aktif projelerini gözden geçirerek limit aşımını düzeltmek için gerekli adımlar atılmalıdır."
       }
     },
     {
@@ -166,8 +166,8 @@
         }
       },
       "ai": {
-        "ozet": "Anadolu Gıda San. projesinde kapama tarihi aşılmış ve istisna kaydı yoktur. Müşterinin aktif proje adedi limitin üzerindedir.",
-        "aksiyon": "Aktif projelerin durumunu değerlendirerek limit aşımını önlemek için gerekli tedbirleri alın."
+        "ozet": "Anadolu Gıda San. projesinde kapama tarihi aşılmış ve istisna kaydı yoktur. Aktif proje adedi limitin üzerindedir.",
+        "aksiyon": "Müşterinin proje limitlerini yeniden değerlendirmek ve aşımı önlemek için gerekli önlemleri almak gerekmektedir."
       }
     },
     {
@@ -247,7 +247,7 @@
       },
       "ai": {
         "ozet": "Doğa Enerji Ltd. projesinde kapama tarihi normal kurala göre aşılmıştır; istisna kaydı mevcut ancak dayanak belgesi yoktur. Limit aşımı tespit edilmiştir.",
-        "aksiyon": "İstisna onay belgelerini tamamlayarak limit aşımını düzeltmek için gerekli işlemleri başlatın."
+        "aksiyon": "Dayanak belgelerin tamamlanması ve limit aşımının düzeltilmesi için müşteri ile iletişime geçilmelidir."
       }
     },
     {
@@ -327,7 +327,7 @@
       },
       "ai": {
         "ozet": "Yıldız Üretim A.Ş. projesinde kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Ancak, proje adedi tanımlı limit içindedir.",
-        "aksiyon": "Kapama tarihini ve belgeleri kontrol ederek eksiklikleri gidermek için gerekli adımları atın."
+        "aksiyon": "Kapama tarihinin düzeltilmesi için gerekli belgelerin tamamlanması sağlanmalıdır."
       }
     },
     {
