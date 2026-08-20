@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20T19:35:49.012Z",
+  "generatedAt": "2026-08-20T20:35:01.356Z",
   "rulesVersion": "2026-05-20T18:16:08.866Z",
   "source": "projects.xlsx",
   "summary": {
@@ -86,8 +86,8 @@
         }
       },
       "ai": {
-        "ozet": "Mavi Liman Ticaret projesinde kapama tarihi aşıldı ve istisna kaydı yok. Müşteri aktif proje adedi limitin üzerinde.",
-        "aksiyon": "Müşteri ile iletişime geçilip, proje kapama tarihinin güncellenmesi sağlanmalıdır."
+        "ozet": "Mavi Liman Ticaret projesinde kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Müşteri, aktif proje adedi limitinin üzerinde bulunmaktadır.",
+        "aksiyon": "Müşterinin aktif proje sayısını limit dahilinde tutmak için gerekli önlemler alınmalıdır."
       }
     },
     {
@@ -166,8 +166,8 @@
         }
       },
       "ai": {
-        "ozet": "Anadolu Gıda Sanayi projesinde kapama tarihi aşıldı ve istisna kaydı yok. Aktif proje adedi limitin üzerinde.",
-        "aksiyon": "Proje kapama tarihinin güncellenmesi için gerekli belgelerin tamamlanması sağlanmalıdır."
+        "ozet": "Anadolu Gıda Sanayi projesinde kapama tarihi aşılmış ve istisna kaydı yoktur. Aktif proje adedi limitin üzerindedir.",
+        "aksiyon": "Proje kapama tarihleri ve aktif proje sayıları gözden geçirilmeli, gerekli düzeltmeler yapılmalıdır."
       }
     },
     {
@@ -246,8 +246,8 @@
         }
       },
       "ai": {
-        "ozet": "Doğa Enerji Ltd. projesinde kapama tarihi normal kurala göre aşıldı, ancak onay belgesi eksik. Limit aşımı mevcut.",
-        "aksiyon": "Eksik onay belgelerinin tamamlanması ve limit aşımının düzeltilmesi için gerekli adımlar atılmalıdır."
+        "ozet": "Doğa Enerji Ltd. projesinde kapama tarihi normal kurala göre aşılmıştır. Limit aşımı söz konusu ve belgeler eksik.",
+        "aksiyon": "Eksik belgelerin tamamlanması ve limit aşımının önlenmesi için gerekli adımlar atılmalıdır."
       }
     },
     {
@@ -326,8 +326,8 @@
         }
       },
       "ai": {
-        "ozet": "Yıldız Üretim A.Ş. projesinde kapama tarihi aşıldı ve istisna kaydı yok. Ödeme belgesi eksikliği riski mevcut.",
-        "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile iletişime geçilmelidir."
+        "ozet": "Yıldız Üretim A.Ş. projesinde kapama tarihi aşılmış ve istisna kaydı yoktur. Ancak, proje adedi tanımlı limit içindedir.",
+        "aksiyon": "Kapama tarihleri ile ilgili acil önlemler alınmalı ve belgelerin tamlığı kontrol edilmelidir."
       }
     },
     {
