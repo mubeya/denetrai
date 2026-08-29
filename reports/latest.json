@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T08:52:10.515Z",
+  "generatedAt": "2026-08-29T14:19:34.232Z",
   "rulesVersion": "2026-05-20T18:16:08.866Z",
   "source": "projects.xlsx",
   "summary": {
@@ -86,8 +86,8 @@
         }
       },
       "ai": {
-        "ozet": "Mavi Liman Tic. projesinde kapama tarihi aşılmış ve istisna kaydı yok. Müşterinin aktif proje adedi limitin üzerinde.",
-        "aksiyon": "Müşterinin aktif projelerinin sayısını azaltması için uyarıda bulunun."
+        "ozet": "Proje kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Müşteri aktif proje adedi limitin üzerinde.",
+        "aksiyon": "Müşteri ile iletişime geçerek proje kapama tarihini ve belgeleri güncelleyiniz."
       }
     },
     {
@@ -166,8 +166,8 @@
         }
       },
       "ai": {
-        "ozet": "Anadolu Gıda San. projesinde kapama tarihi aşılmış ve istisna kaydı yok. Aktif proje sayısı limitin üzerinde.",
-        "aksiyon": "Müşteriye limit aşımını düzeltmesi için gerekli belgeleri temin etmesi gerektiğini bildirin."
+        "ozet": "Kapama tarihi aşılmış ve istisna kaydı yok. Müşteri aktif proje adedi limitin üzerinde.",
+        "aksiyon": "Proje belgelerini kontrol ederek eksiklikleri tamamlayınız."
       }
     },
     {
@@ -246,8 +246,8 @@
         }
       },
       "ai": {
-        "ozet": "Doğa Enerji Ltd. projesinde kapama tarihi normal kurala göre aşılmış, istisna kaydı var ancak belgeler eksik. Limit aşımı söz konusu.",
-        "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile iletişime geçin."
+        "ozet": "Kapama tarihi normal kurala göre aşılmış; istisna kaydı var ancak gerekli belgeler eksik. Limit aşımı söz konusu.",
+        "aksiyon": "Gerekli belgelerin temin edilmesi için müşteri ile görüşünüz."
       }
     },
     {
@@ -326,8 +326,8 @@
         }
       },
       "ai": {
-        "ozet": "Yıldız Üretim A.Ş. projesinde kapama tarihi aşılmış ve istisna kaydı yok. Proje adedi limit içinde.",
-        "aksiyon": "Kapama tarihinin düzeltilmesi için gerekli adımların atılmasını sağlayın."
+        "ozet": "Kapama tarihi aşılmış ve istisna kaydı yok. Müşteri ödeme belgesinde eksiklik riski taşımaktadır.",
+        "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile irtibat kurunuz."
       }
     },
     {
