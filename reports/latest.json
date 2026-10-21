@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-21T04:14:18.097Z",
+  "generatedAt": "2026-10-21T09:56:56.809Z",
   "rulesVersion": "2026-05-20T18:16:08.866Z",
   "source": "projects.xlsx",
   "summary": {
@@ -167,7 +167,7 @@
       },
       "ai": {
         "ozet": "Anadolu Gıda San. projesinde kapama tarihi aşılmış ve istisna kaydı yoktur. Aktif proje adedi limitin üzerindedir.",
-        "aksiyon": "Proje kapama tarihinin güncellenmesi ve gerekli belgelerin temin edilmesi için müşteri ile görüşülmelidir."
+        "aksiyon": "Proje kapama tarihinin güncellenmesi ve gerekli belgelerin tamamlanması için müşteri ile görüşülmelidir."
       }
     },
     {
@@ -247,7 +247,7 @@
       },
       "ai": {
         "ozet": "Doğa Enerji Ltd. projesinde kapama tarihi normal kurala göre aşılmıştır. Limit aşımı ve eksik belgeler riski bulunmaktadır.",
-        "aksiyon": "Eksik belgelerin tamamlanması ve limit aşımının onaylanması için gerekli adımlar atılmalıdır."
+        "aksiyon": "Eksik belgelerin tamamlanması ve limit aşımının çözülmesi için müşteri ile acil iletişime geçilmelidir."
       }
     },
     {
@@ -326,8 +326,8 @@
         }
       },
       "ai": {
-        "ozet": "Yıldız Üretim A.Ş. projesinde kapama tarihi aşılmış ve eksik belge riski mevcuttur. Ancak proje adedi tanımlı limit içindedir.",
-        "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile iletişime geçilmelidir."
+        "ozet": "Yıldız Üretim A.Ş. projesinde kapama tarihi aşılmış ve istisna kaydı yoktur. Ancak proje adedi tanımlı limit içindedir.",
+        "aksiyon": "Kapama tarihinin güncellenmesi için gerekli belgelerin sağlanması amacıyla müşteri ile iletişim kurulmalıdır."
       }
     },
     {
