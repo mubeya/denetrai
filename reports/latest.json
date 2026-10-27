@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T23:40:35.339Z",
+  "generatedAt": "2026-10-27T04:34:42.541Z",
   "rulesVersion": "2026-05-20T18:16:08.866Z",
   "source": "projects.xlsx",
   "summary": {
@@ -87,7 +87,7 @@
       },
       "ai": {
         "ozet": "Mavi Liman Tic. projesinde kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Müşterinin aktif proje adedi limitin üzerinde olduğu tespit edilmiştir.",
-        "aksiyon": "Müşteri ile iletişime geçilerek proje kapama tarihleri ve belgelerin durumu hakkında bilgi alınmalıdır."
+        "aksiyon": "Müşteri ile iletişime geçilerek proje kapama tarihleri ve belgeler hakkında bilgi talep edilmelidir."
       }
     },
     {
@@ -167,7 +167,7 @@
       },
       "ai": {
         "ozet": "Anadolu Gıda San. projesinde kapama tarihi aşılmış ve istisna kaydı yoktur. Aktif proje adedi limitin üzerindedir.",
-        "aksiyon": "Proje kapama tarihleri ve belgelerin durumu hakkında müşteri ile görüşülmelidir."
+        "aksiyon": "Proje kapama tarihleri ve belgeler hakkında müşteri ile görüşülmelidir."
       }
     },
     {
@@ -246,7 +246,7 @@
         }
       },
       "ai": {
-        "ozet": "Doğa Enerji Ltd. projesinde kapama tarihi normal kurala göre aşılmıştır. Limit aşımı mevcut ancak dayanak belge eksikliği bulunmaktadır.",
+        "ozet": "Doğa Enerji Ltd. projesinde kapama tarihi normal kurala göre aşılmıştır; istisna kaydı mevcut ancak dayanak belgesi eksiktir. Limit aşımı söz konusudur.",
         "aksiyon": "Eksik belgelerin tamamlanması için müşteri ile iletişime geçilmelidir."
       }
     },
@@ -326,8 +326,8 @@
         }
       },
       "ai": {
-        "ozet": "Yıldız Üretim A.Ş. projesinde kapama tarihi aşılmış ve istisna kaydı yoktur. Ancak, proje adedi tanımlı limit içindedir.",
-        "aksiyon": "Kapama tarihleri ve belgeler hakkında müşteri ile görüşme yapılmalıdır."
+        "ozet": "Yıldız Üretim A.Ş. projesinde kapama tarihi aşılmış ve istisna kaydı bulunmamaktadır. Ancak proje adedi tanımlı limit içindedir.",
+        "aksiyon": "Kapama tarihleri ve belgeler hakkında müşteri ile bilgi alışverişi yapılmalıdır."
       }
     },
     {
